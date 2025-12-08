@@ -91,8 +91,8 @@
     });
 
     // 【修改点】右键点击 (contextmenu)：重置位置并睡觉
-    nekoEl.addEventListener('contextmenu', (e) => {
-        e.preventDefault(); // ！！！重要：阻止默认的浏览器右键菜单弹出
+    nekoEl.addEventListener('dblclick', (e) => {
+
         e.stopPropagation();
         
         active = false; // 进入睡眠状态
