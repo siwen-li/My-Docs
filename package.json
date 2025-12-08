@@ -4,6 +4,6 @@
     "private": true,
     "scripts": {
         "dev": "zensical serve",
-        "build": "zensical build"
+        "build": "python3 -m zensical build"
     }
 }
