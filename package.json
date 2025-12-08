@@ -5,6 +5,5 @@
     "scripts": {
         "dev": "zensical serve",
         "build": "python3 -m zensical build"
-    },
-    "outputDirectory": "site"
+    }
 }
