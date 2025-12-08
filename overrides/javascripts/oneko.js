@@ -80,7 +80,7 @@
     // 左键点击：唤醒小猫
     nekoEl.addEventListener('click', (e) => {
         e.stopPropagation();
-        explodeHearts();
+        // explodeHearts();
         
         if (!active) {
             active = true;
@@ -174,47 +174,47 @@
     idleAnimationFrame += 1;
   }
 
-  function explodeHearts() {
-    const rect = nekoEl.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+//   function explodeHearts() {
+//     const rect = nekoEl.getBoundingClientRect();
+//     const centerX = rect.left + rect.width / 2;
+//     const centerY = rect.top + rect.height / 2;
 
-    for (let i = 0; i < 10; i++) {
-      const container = document.createElement('div');
-      const offsetX = (Math.random() - 0.5) * 50;
-      const offsetY = (Math.random() - 0.5) * 50;
+//     for (let i = 0; i < 10; i++) {
+//       const container = document.createElement('div');
+//       const offsetX = (Math.random() - 0.5) * 50;
+//       const offsetY = (Math.random() - 0.5) * 50;
 
-      container.style.position = 'fixed';
-      container.style.left = `${centerX + offsetX - 16}px`;
-      container.style.top = `${centerY + offsetY - 16}px`;
-      container.style.zIndex = "9999999";
-      container.style.pointerEvents = 'none';
+//       container.style.position = 'fixed';
+//       container.style.left = `${centerX + offsetX - 16}px`;
+//       container.style.top = `${centerY + offsetY - 16}px`;
+//       container.style.zIndex = "9999999";
+//       container.style.pointerEvents = 'none';
 
-      const heart = document.createElement('div');
-      heart.innerText = '❤';
-      heart.style.color = '#FF69B4';
-      heart.style.fontSize = '2em';
-      heart.style.userSelect = 'none';
-      heart.style.animation = 'heartBurst 1s ease-out';
-      heart.style.animationFillMode='forwards';
+//       const heart = document.createElement('div');
+//       heart.innerText = '❤';
+//       heart.style.color = '#ab9df2';
+//       heart.style.fontSize = '1.6em';
+//       heart.style.userSelect = 'none';
+//       heart.style.animation = 'heartBurst 1s ease-out';
+//       heart.style.animationFillMode='forwards';
 
-      container.appendChild(heart);
-      document.body.appendChild(container);
+//       container.appendChild(heart);
+//       document.body.appendChild(container);
 
-      const animation = heart.animate([
-        { transform: 'scale(0)', opacity: 1 },
-        { transform: 'scale(1)', opacity: 0 }
-      ], {
-        duration: 1000,
-        easing: 'ease-out',
-        fill: 'forwards'
-      });
+//       const animation = heart.animate([
+//         { transform: 'scale(0)', opacity: 1 },
+//         { transform: 'scale(1)', opacity: 0 }
+//       ], {
+//         duration: 1000,
+//         easing: 'ease-out',
+//         fill: 'forwards'
+//       });
 
-      animation.onfinish = () => {
-        container.remove();
-      };
-    }
-  }
+//       animation.onfinish = () => {
+//         container.remove();
+//       };
+//     }
+//   }
 
   function frame() {
     frameCount += 1;
