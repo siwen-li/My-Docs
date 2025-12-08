@@ -3,8 +3,8 @@
 (function oneko() {
   const nekoEl = document.createElement("div"); // 创建猫的 DOM 元素
   
-  const initialX = window.innerWidth / 2 + 32;
-  const initialY = 20;
+  let initialX = window.innerWidth / 2 + 32;
+  let initialY = 20;
   
   // --- 状态变量定义 ---
   // 保留了你提供的默认值：默认进入睡眠状态
@@ -15,6 +15,7 @@
     frameCount = 0,           
     idleTime = 0,             
     idleAnimation = "sleeping",     // 默认闲置动画为睡觉
+    returningToSleep = false,       // 标记是否正在跑回初始位置 + 
     idleAnimationFrame = 0,   
     forceSleep = true,              // 默认开启强制睡眠
     grabbing = false,         
@@ -71,9 +72,11 @@
 
     if (!forceSleep) {
       resetIdleAnimation();
+      returningToSleep = false; // 醒来就不跑了 + 
     } else {
       // 立即进入睡觉动画
-      idleAnimation = "sleeping";
+      // idleAnimation = "sleeping";   -
+      returningToSleep = true;  // 开启睡眠时，标记需要跑回家 +
     }
   }
 
@@ -81,7 +84,7 @@
   function create() {
     // 读取配置
     variant = parseLocalStorage("variant", "classic");
-    kuroNeko = parseLocalStorage("kuroneko", false);
+    // kuroNeko = parseLocalStorage("kuroneko", false);  // 不再读取本地存储，改为跟随主题
     
     // 如果本地存储有强制睡眠设置，覆盖默认值
     const savedSleep = parseLocalStorage("forceSleep", null);
@@ -100,12 +103,35 @@
     nekoEl.style.height = "32px";
     nekoEl.style.position = "fixed";
     nekoEl.style.pointerEvents = "auto"; // 确保鼠标可以点击到猫
-    nekoEl.style.backgroundImage = `url('https://raw.githubusercontent.com/kyrie25/spicetify-oneko/main/assets/oneko/oneko-${variant}.gif')`;
+    nekoEl.style.backgroundImage = `url('/oneko.gif')`;
     nekoEl.style.imageRendering = "pixelated"; 
     nekoEl.style.left = `${nekoPosX - 16}px`;
     nekoEl.style.top = `${nekoPosY - 16}px`;
     nekoEl.style.filter = kuroNeko ? "invert(100%)" : "none"; 
     nekoEl.style.zIndex = "9999"; // 提高层级以适应通用网页
+
+
+
+    // ---------------- [新增部分开始] ----------------
+    // 定义深色模式检测函数 (适配 Material for MkDocs)
+    function updateTheme() {
+        // 检查 body 是否有 data-md-color-scheme="slate" (Material 主题深色标记)
+        const isDark = document.body.getAttribute("data-md-color-scheme") === "slate" 
+                       || document.body.classList.contains("dark");
+        kuroNeko = isDark;
+        nekoEl.style.filter = kuroNeko ? "invert(100%)" : "none";
+    }
+
+    // 1. 初始化时执行一次
+    updateTheme();
+
+    // 2. 监听 DOM 变化 (当用户点击网页右上角切换模式时自动变色)
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.body, { 
+        attributes: true, 
+        attributeFilter: ["data-md-color-scheme", "class"] 
+    });
+    // ---------------- [新增部分结束] ----------------
 
     document.body.appendChild(nekoEl);
 
@@ -119,8 +145,15 @@
     });
 
     window.addEventListener("resize", () => {
-        // 窗口大小改变时，不再强制调用 sleep() 重置位置，防止猫跳动
-        // 仅在非睡眠状态下更新边界即可（在 frame 中已处理）
+        // --- [修改 2] 窗口变化时更新初始位置 ---
+        initialX = window.innerWidth / 2 + 32;
+        // initialY = 20; // Y轴如果是固定的20，这里可以不写，或者你也想根据高度变化则在这里改
+
+        // 如果当前是睡觉模式，需要叫醒它让它跑去新的中心点
+        if (forceSleep) {
+            returningToSleep = true; // 标记需要跑回新位置
+            resetIdleAnimation();    // 重置动画（从睡觉变成走路）
+        }
     });
 
     // --- 拖拽猫咪逻辑 ---
@@ -164,14 +197,29 @@
         nekoEl.style.top = `${nekoPosY - 16}px`;
       };
 
-      const mouseup = () => {
+      // const mouseup = () => {
+      //   grabbing = false;
+      //   nudge = true; 
+      //   resetIdleAnimation();
+      //   // 如果被拖拽且放下，如果处于强制睡眠，则保持唤醒状态还是继续睡？
+      //   // 原逻辑是 nudge=true，frame 中会处理。
+      //   // 这里为了体验更好，如果拖拽了，建议暂时解除强制睡眠，或者让它原地继续睡
+      //   // 保持原逻辑：nudge 会在 idle() 中被处理
+      //   window.removeEventListener("mousemove", mousemove);
+      //   window.removeEventListener("mouseup", mouseup);
+      // };
+
+
+      const mouseup = () => {      // 拖拽醒来跑回去睡 + 
         grabbing = false;
-        nudge = true; 
-        resetIdleAnimation();
-        // 如果被拖拽且放下，如果处于强制睡眠，则保持唤醒状态还是继续睡？
-        // 原逻辑是 nudge=true，frame 中会处理。
-        // 这里为了体验更好，如果拖拽了，建议暂时解除强制睡眠，或者让它原地继续睡
-        // 保持原逻辑：nudge 会在 idle() 中被处理
+        // 如果处于强制睡眠，放下后标记“回家”，并唤醒行走动画
+        if (forceSleep) {
+            returningToSleep = true;
+            resetIdleAnimation();
+        } else {
+            nudge = true; 
+            resetIdleAnimation();
+        }
         window.removeEventListener("mousemove", mousemove);
         window.removeEventListener("mouseup", mouseup);
       };
@@ -273,19 +321,61 @@
 
     // 在普通网页版中，强制睡眠只需原地不动调用 idle() 即可
     // 删除了原版中强制位移到进度条的代码
+    // if (forceSleep) {
+    //   idle();
+    //   return;
+    // }
+
+    // const diffX = nekoPosX - mousePosX;
+    // const diffY = nekoPosY - mousePosY;
+    // const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
+
+    // if (distance < nekoSpeed || distance < 48) {
+    //   idle();
+    //   return;
+    // }
+
+
+    // --- [修改开始] 目标位置判断 ---   强制位移到初始位置睡 + 
+    let targetX, targetY;
+
     if (forceSleep) {
-      idle();
-      return;
+        // 如果正在强制睡眠
+        if (returningToSleep) {
+            // 如果在“回家”路上，目标设为初始点
+            targetX = initialX;
+            targetY = initialY;
+        } else {
+            // 已经到家并在睡觉，原地待命
+            idle();
+            return;
+        }
+    } else {
+        // 正常非睡眠模式，追随鼠标
+        targetX = mousePosX;
+        targetY = mousePosY;
     }
 
-    const diffX = nekoPosX - mousePosX;
-    const diffY = nekoPosY - mousePosY;
+    const diffX = nekoPosX - targetX;
+    const diffY = nekoPosY - targetY;
     const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
 
-    if (distance < nekoSpeed || distance < 48) {
-      idle();
-      return;
+    // 到达判定
+    if (distance < nekoSpeed ) {
+        if (returningToSleep) {
+            // 刚好跑到了初始位置
+            returningToSleep = false; // 停止奔跑状态
+            idle(); // 开始睡觉
+            return;
+        }
     }
+
+      // 正常追随鼠标时的停止距离
+    if (!forceSleep && distance < 48) {
+          idle();
+          return;
+    }
+    // --- [修改结束] ---
 
     idleAnimation = null;
     idleAnimationFrame = 0;
@@ -315,13 +405,9 @@
 
   create();
   
-  // 保留一个全局方法用于手动切换皮肤 (因为删除了 UI 弹窗)
-  window.onekoSetVariant = function(variantName) {
-      if (variants.some(v => v[0] === variantName)) {
-          variant = variantName;
-          localStorage.setItem("oneko:variant", `"${variant}"`);
-          nekoEl.style.backgroundImage = `url('https://raw.githubusercontent.com/kyrie25/spicetify-oneko/main/assets/oneko/oneko-${variant}.gif')`;
-      }
-  };
 
 })();
+
+
+// oneko.js: https://github.com/adryd325/oneko.js
+
