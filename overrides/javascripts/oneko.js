@@ -58,7 +58,7 @@
     nekoEl.style.left = `${nekoPosX - 16}px`;
     nekoEl.style.top = `${nekoPosY - 16}px`;
 
-    let nekoFile = "images/oneko.gif"
+    let nekoFile = "javascripts/oneko.gif"
     const currentScript = document.currentScript || 
                           Array.from(document.getElementsByTagName("script"))
                           .find(s => s.src && s.src.includes("oneko.js"));
