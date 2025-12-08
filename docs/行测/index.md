@@ -1,10 +1,13 @@
+---
+hide: path 
+---
 
-# 目录
+# 行测
 
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-bars:{ .lg .middle } __判断推理__
+-   :lucide-brain:{ .lg .middle } __判断推理__
 
     ---
     
@@ -15,12 +18,13 @@
 	- [分析推理](判断推理/分析推理.md)
 	- [推理方式与论证结构](判断推理/推理方式与论证结构.md)
 	- [逻辑基础知识点总结](判断推理/逻辑基础知识点总结.md)
+	- [定义判断](判断推理/定义判断.md)
+	- [类比推理](判断推理/类比推理.md)
+	- [图形推理](判断推理/图形推理.md)
 	- [判断推理](判断推理/判断推理.md)
 
 
-
-
--   :material-book-open-variant-outline:{ .lg .middle } __资料分析__
+-   :lucide-chart-no-axes-combined:{ .lg .middle } __资料分析__
 
     ---
 
@@ -34,13 +38,21 @@
 	- [特殊考点](资料分析/特殊考点.md)
 
 
--   :material-web-check:{ .lg .middle } __言语理解__
+-   :lucide-book-open-text:{ .lg .middle } __言语理解__
 
     ---
 	
 	- [片段阅读](言语理解/片段阅读.md)
 	- [逻辑填空](言语理解/逻辑填空.md)
 	- [词语积累](言语理解/词语积累.md)
+
+
+-   :lucide-flag:{ .lg .middle } __其他__
+
+    ---
+	
+	- [数量关系](数量关系/数量关系.md)
+	- [常识、政治理论](常识、政治理论/常识、政治理论.md)
 
   
 
