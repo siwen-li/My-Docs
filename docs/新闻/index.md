@@ -2,7 +2,7 @@
 hide: path
 ---
 
-# 新闻
+# 目录
 
 <div class="grid cards" markdown>
 

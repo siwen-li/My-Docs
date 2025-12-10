@@ -86,7 +86,7 @@ img.img1, img.img2, img.img3 {
 
 /* 数学公式样式修改 */
 .katex-html {
-    font-family: "LXGW WenKai",system-ui, -apple-system, sans-serif;
+    /* font-family: system-ui, -apple-system, sans-serif; */
     color: var(--style-katex); 
     font-weight: 500;
     position: relative;
@@ -118,3 +118,12 @@ img.img1, img.img2, img.img3 {
 }
 
 
+
+mark {
+    margin: 0 -0.05em;
+    padding: 0.1em 0.4em;
+    border-radius: 0.8em 0.3em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    text-shadow: 0 0 0.75em #FAFAFA
+}

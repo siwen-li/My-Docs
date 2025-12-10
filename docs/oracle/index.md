@@ -2,7 +2,7 @@
 hide: path
 ---
 
-# Oracle
+# 目录
 
 <div class="grid cards" markdown>
 

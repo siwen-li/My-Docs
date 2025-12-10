@@ -2,7 +2,7 @@
 hide: path
 ---
 
-# Linux
+# 目录
 
 <div class="grid cards" markdown>
 
