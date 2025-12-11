@@ -10,18 +10,19 @@ hide: path
 -   :lucide-brain:{ .lg .middle } __判断推理__
 
     ---
-    
-    - [逻辑论证之归因论证](判断推理/逻辑论证之归因论证.md)
-    - [逻辑论证之一般质疑](判断推理/逻辑论证之一般质疑.md)
-    - [逻辑论证之支持、前提、解释](判断推理/逻辑论证之支持、前提、解释.md)
-    - [推出推理](判断推理/推出推理.md)
-	- [分析推理](判断推理/分析推理.md)
-	- [推理方式与论证结构](判断推理/推理方式与论证结构.md)
-	- [逻辑基础知识点总结](判断推理/逻辑基础知识点总结.md)
-	- [定义判断](判断推理/定义判断.md)
-	- [类比推理](判断推理/类比推理.md)
-	- [图形推理](判断推理/图形推理.md)
-	- [判断推理](判断推理/判断推理.md)
+
+	- [归因论证](行测/判断推理/归因论证.md) 
+    - [一般质疑](行测/判断推理/一般质疑.md)
+    - [支持与前提假设](行测/判断推理/支持与前提假设.md)
+    - [比例和解释说明](行测/判断推理/比例和解释说明.md)
+    - [逻辑基础](行测/判断推理/逻辑基础.md)
+    - [推出推理](行测/判断推理/推出推理.md)
+    - [分析推理](行测/判断推理/分析推理.md)
+    - [定义判断](行测/判断推理/定义判断.md)
+    - [类比推理](行测/判断推理/类比推理.md)
+    - [图形推理-平面类](行测/判断推理/图形推理-平面类.md)
+    - [图形推理-特殊类](行测/判断推理/图形推理-特殊类.md)
+    - [图形推理-空间类](行测/判断推理/图形推理-空间类.md)
 
 
 -   :lucide-chart-no-axes-combined:{ .lg .middle } __资料分析__
@@ -64,3 +65,70 @@ hide: path
         grid-template-columns: none;
     }
 </style> -->
+
+<style>
+/* =========================================
+   MkDocs Grid Cards: 强制 8 行转列 (Grid版)
+   ========================================= */
+
+/* 1. 基础设置：给列表预留一点左边距 */
+.md-typeset .grid.cards > ul > li > ul {
+    margin-top: 0.5em;
+    padding-left: 0.5em; 
+}
+
+/* 2. 核心逻辑：只有超过 8 个元素的列表才启用 Grid */
+.md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) {
+    display: grid;
+    
+    /* 关键命令：垂直方向优先填充！ */
+    grid-auto-flow: column;
+    
+    /* 关键命令：强制设定 8 行 (每行高度根据内容自适应) */
+    /* 这样填满 8 行后，第 9 个元素就会被迫挤到第二列去 */
+    grid-template-rows: repeat(8, min-content);
+    
+    /* 设定两列等宽 */
+    grid-template-columns: 1fr 1fr;
+    
+    /* 间距：行间距 0.2rem，列间距 2rem */
+    gap: 0.1rem 1rem;
+
+}
+
+/* 3. 修复小圆点 (因为 Grid 布局会吞掉默认的列表圆点) */
+.md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) li {
+    display: flex; /* 让伪元素圆点和文字对齐 */
+    align-items: baseline; /* 文字基线对齐 */
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+/* 手动画一个圆点 */
+.md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) li::before {
+    content: "•";           /* 实心圆点字符 */
+	font-size: 18px;
+    color: var(--md-default-fg-color); /* 跟随主题色 */
+    font-weight: bold;
+    margin-right: 0.5em;    /* 圆点和文字的距离 */
+    flex-shrink: 0;         /* 防止圆点被挤压 */
+}
+
+/* 4. 手机端适配：屏幕窄时取消 Grid，变回普通单列 */
+@media screen and (max-width: 600px) {
+    .md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) {
+        display: block; /* 变回普通块级元素 */
+    }
+    /* 手机端不需要手画圆点，恢复默认圆点 */
+    .md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) li {
+        display: list-item;
+        list-style-type: disc;
+        list-style-position: outside;
+        margin-left: 1.2em; /* 恢复左缩进 */
+		margin-bottom: .5em;
+    }
+    .md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) li::before {
+        content: none; /* 隐藏手画圆点 */
+    }
+}
+</style>
