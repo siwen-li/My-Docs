@@ -4,7 +4,6 @@
 
 // 即时导航兼容
 document$.subscribe(function() {
-    console.log('Zensical-Wcowin loaded');
 
     document.querySelectorAll('.md-code__button[data-md-type="select"]').forEach(b => b.title = "选择行");
 

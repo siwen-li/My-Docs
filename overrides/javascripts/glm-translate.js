@@ -25,7 +25,7 @@
       const saved = localStorage.getItem('glm_global_translation_preference');
       if (saved && saved !== 'null' && saved !== 'chinese_simplified') {
         globalTranslationPreference = saved;
-        console.log(`🌐 已加载全局翻译偏好: ${LANGUAGE_MAP[saved] || saved}`);
+        // console.log(`🌐 已加载全局翻译偏好: ${LANGUAGE_MAP[saved] || saved}`);
         return saved;
       }
       return null;
@@ -41,16 +41,16 @@
       if (language && language !== 'chinese_simplified') {
         globalTranslationPreference = language;
         localStorage.setItem('glm_global_translation_preference', language);
-        console.log(`💾 已保存全局翻译偏好: ${LANGUAGE_MAP[language] || language}`);
+        // console.log(`💾 已保存全局翻译偏好: ${LANGUAGE_MAP[language] || language}`);
         
         // 同步更新当前语言状态
         if (currentLanguage !== language) {
-          console.log(`🔄 同步当前语言状态: ${currentLanguage} -> ${language}`);
+          // console.log(`🔄 同步当前语言状态: ${currentLanguage} -> ${language}`);
         }
       } else {
         globalTranslationPreference = null;
         localStorage.removeItem('glm_global_translation_preference');
-        console.log('🗑️ 已清除全局翻译偏好');
+        // console.log('🗑️ 已清除全局翻译偏好');
       }
     } catch (error) {
       console.warn('⚠️ 保存全局翻译偏好失败:', error);
@@ -61,7 +61,7 @@
   function validateGlobalTranslationState() {
     const savedPreference = localStorage.getItem('glm_global_translation_preference');
     if (savedPreference && savedPreference !== 'null' && savedPreference !== currentLanguage) {
-      console.log(`⚠️ 检测到全局翻译偏好不一致: 偏好=${savedPreference}, 当前=${currentLanguage}`);
+      // console.log(`⚠️ 检测到全局翻译偏好不一致: 偏好=${savedPreference}, 当前=${currentLanguage}`);
       return false;
     }
     return true;
@@ -74,14 +74,14 @@
     if (savedPreference && savedPreference !== 'null') {
       // 有全局偏好，检查是否需要同步
       if (currentLanguage !== savedPreference) {
-        console.log(`🔄 同步全局翻译状态: ${currentLanguage} -> ${savedPreference}`);
+        // console.log(`🔄 同步全局翻译状态: ${currentLanguage} -> ${savedPreference}`);
         globalTranslationPreference = savedPreference;
         return savedPreference;
       }
     } else {
       // 没有全局偏好，确保变量为null
       if (globalTranslationPreference !== null) {
-        console.log('🗑️ 清除内存中的全局翻译偏好');
+        // console.log('🗑️ 清除内存中的全局翻译偏好');
         globalTranslationPreference = null;
       }
     }
@@ -91,7 +91,7 @@
 
   // 强制重置翻译状态
   function resetTranslationState() {
-    console.log('🔄 强制重置翻译状态');
+    // console.log('🔄 强制重置翻译状态');
     
     // 重置所有状态变量
     isTranslating = false;
@@ -112,7 +112,7 @@
     // 同步全局状态
     syncGlobalTranslationState();
     
-    console.log('✅ 翻译状态重置完成');
+    // console.log('✅ 翻译状态重置完成');
   }
 
   // 页面翻译缓存管理
@@ -131,7 +131,7 @@
       if (pageTranslationCache.size > 10) {
         const oldestKey = pageTranslationCache.keys().next().value;
         pageTranslationCache.delete(oldestKey);
-        console.log(`🗑️ 清除最旧的页面缓存: ${oldestKey}`);
+        // console.log(`🗑️ 清除最旧的页面缓存: ${oldestKey}`);
       }
       
       // 同时保存到localStorage（限制大小）
@@ -143,7 +143,7 @@
       };
       
       localStorage.setItem(`glm_page_cache_${pageKey}`, JSON.stringify(cacheForStorage));
-      console.log(`💾 已缓存页面翻译: ${pageKey} (${language}, ${translatedTexts.size}个文本)`);
+      // console.log(`💾 已缓存页面翻译: ${pageKey} (${language}, ${translatedTexts.size}个文本)`);
     } catch (error) {
       console.warn('⚠️ 保存页面翻译缓存失败:', error);
     }
@@ -154,7 +154,7 @@
       // 先检查内存缓存
       const memoryCache = pageTranslationCache.get(pageKey);
       if (memoryCache && Date.now() - memoryCache.timestamp < CACHE_MAX_AGE) {
-        console.log(`🎯 从内存加载页面翻译缓存: ${pageKey}`);
+        // console.log(`🎯 从内存加载页面翻译缓存: ${pageKey}`);
         return {
           language: memoryCache.language,
           translatedTexts: new Map(memoryCache.translatedTexts),
@@ -167,7 +167,7 @@
       if (storageCache) {
         const cacheData = JSON.parse(storageCache);
         if (Date.now() - cacheData.timestamp < CACHE_MAX_AGE) {
-          console.log(`📁 检测到页面翻译缓存: ${pageKey} (${cacheData.language})`);
+          // console.log(`📁 检测到页面翻译缓存: ${pageKey} (${cacheData.language})`);
           return {
             language: cacheData.language,
             translatedTexts: null, // localStorage中不保存具体翻译文本
@@ -188,7 +188,7 @@
     try {
       pageTranslationCache.delete(pageKey);
       localStorage.removeItem(`glm_page_cache_${pageKey}`);
-      console.log(`🗑️ 已清除页面翻译缓存: ${pageKey}`);
+      // console.log(`🗑️ 已清除页面翻译缓存: ${pageKey}`);
     } catch (error) {
       console.warn('⚠️ 清除页面翻译缓存失败:', error);
     }
@@ -204,13 +204,13 @@
       
       // 如果是从localStorage加载的缓存，需要重新翻译
       if (cache.fromStorage) {
-        console.log('  检测到页面翻译历史，重新翻译以恢复状态...');
+        // console.log('  检测到页面翻译历史，重新翻译以恢复状态...');
         return await translatePage(targetLang, false);
       }
       
       // 从内存缓存恢复
       if (cache.translatedTexts) {
-        console.log(`🎯 从缓存恢复页面翻译: ${pageKey}`);
+        // console.log(`🎯 从缓存恢复页面翻译: ${pageKey}`);
         
         // 收集当前页面的文本节点
         collectAndSaveOriginalTexts();
@@ -229,7 +229,7 @@
         });
         
         currentLanguage = targetLang;
-        console.log(`✅ 从缓存恢复翻译: ${restoredCount} 个文本节点`);
+        // console.log(`✅ 从缓存恢复翻译: ${restoredCount} 个文本节点`);
         return true;
       }
       
@@ -332,7 +332,7 @@
     
     // 记录API使用
     API_STATUS[apiType].requestCount++;
-    console.log(`🔑 使用 ${apiType} API密钥 (请求计数: ${API_STATUS[apiType].requestCount})`);
+    // console.log(`🔑 使用 ${apiType} API密钥 (请求计数: ${API_STATUS[apiType].requestCount})`);
     
     return apiKey;
   }
@@ -349,7 +349,7 @@
     // 首先使用GLM_CONFIG的shouldTranslateText进行元素检查
     if (element && window.GLM_CONFIG && window.GLM_CONFIG.shouldTranslateText) {
       if (!window.GLM_CONFIG.shouldTranslateText(element, trimmedText)) {
-        console.log(`⏭️ GLM_CONFIG元素检查跳过: ${element.tagName}, 文本: ${trimmedText.slice(0, 30)}...`);
+        // console.log(`⏭️ GLM_CONFIG元素检查跳过: ${element.tagName}, 文本: ${trimmedText.slice(0, 30)}...`);
         return false;
       }
     }
@@ -363,7 +363,7 @@
       
       // 对于li元素，只要包含中文就应该翻译
       if (tagName === 'li') {
-        console.log('✅ li元素包含中文，应该翻译:', trimmedText.slice(0, 30) + '...');
+        // console.log('✅ li元素包含中文，应该翻译:', trimmedText.slice(0, 30) + '...');
         return true;
       }
       
@@ -377,7 +377,7 @@
           element.closest('.md-sidebar') ||
           (tagName === 'a' && element.closest('.md-tabs')) ||
           (tagName === 'span' && element.closest('.md-tabs'))) {
-        console.log('✅ 导航栏元素包含中文，应该翻译:', trimmedText.slice(0, 30) + '...');
+        // console.log('✅ 导航栏元素包含中文，应该翻译:', trimmedText.slice(0, 30) + '...');
         return true;
       }
       
@@ -385,7 +385,7 @@
       if (tagName === 'h1' || tagName === 'h2' || tagName === 'h3' || 
           tagName === 'h4' || tagName === 'h5' || tagName === 'h6' ||
           tagName === 'p' || tagName === 'div' || tagName === 'span') {
-        console.log('✅ 内容元素包含中文，应该翻译:', trimmedText.slice(0, 30) + '...');
+        // console.log('✅ 内容元素包含中文，应该翻译:', trimmedText.slice(0, 30) + '...');
         return true;
       }
     }
@@ -395,13 +395,13 @@
       // 使用GLM_CONFIG的跳过检查（但对中文内容更宽松）
       if (window.GLM_CONFIG && window.GLM_CONFIG.shouldSkipTranslation) {
         if (window.GLM_CONFIG.shouldSkipTranslation(trimmedText)) {
-          console.log('⚠️ GLM_CONFIG建议跳过含中文文本:', trimmedText.slice(0, 30) + '...');
+          // console.log('⚠️ GLM_CONFIG建议跳过含中文文本:', trimmedText.slice(0, 30) + '...');
           return false;
         }
       }
       
       // 包含中文的文本，默认应该翻译
-      console.log('✅ 包含中文，应该翻译:', trimmedText.slice(0, 30) + '...');
+      // console.log('✅ 包含中文，应该翻译:', trimmedText.slice(0, 30) + '...');
       return true;
     }
     
@@ -448,7 +448,7 @@
       // 更新访问时间和使用次数
       cached.lastAccess = Date.now();
       cached.usage = (cached.usage || 0) + 1;
-      console.log('⚡ 本地缓存命中');
+      // console.log('⚡ 本地缓存命中');
       return { translation: cached.result, source: 'cache' };
     }
     
@@ -500,7 +500,7 @@
       translationCache.set(entries[i][0], entries[i][1]);
     }
     
-    console.log(`🧹 缓存清理完成，保留 ${keepCount}/${entries.length} 个条目`);
+    // console.log(`🧹 缓存清理完成，保留 ${keepCount}/${entries.length} 个条目`);
   }
 
 
@@ -595,7 +595,7 @@
         const regex = new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'g');
         processedText = processedText.replace(regex, (match) => {
           protectedTexts.push({ placeholder, original: match });
-          console.log(`🛡️ 保护技术术语: ${match}`);
+          // console.log(`🛡️ 保护技术术语: ${match}`);
           return placeholder;
         });
       });
@@ -615,7 +615,7 @@
         processedText = processedText.replace(pattern, (match) => {
           const placeholder = `PROTECTED_${type.toUpperCase()}_${protectedIndex++}`;
           protectedTexts.push({ placeholder, original: match });
-          console.log(`🛡️ 保护${type}: ${match}`);
+          // console.log(`🛡️ 保护${type}: ${match}`);
           return placeholder;
         });
       });
@@ -693,7 +693,7 @@
       isCodeComment = window.GLM_CONFIG.isCodeComment(text);
       if (isCodeComment) {
         commentInfo = window.GLM_CONFIG.extractCommentText(text);
-        console.log('🔧 检测到代码注释，进行特殊处理:', commentInfo);
+        // console.log('🔧 检测到代码注释，进行特殊处理:', commentInfo);
       }
     }
 
@@ -701,7 +701,7 @@
     let textToTranslate = text;
     if (isCodeComment && commentInfo) {
       textToTranslate = commentInfo.commentContent;
-      console.log('📝 提取注释内容进行翻译:', textToTranslate);
+      // console.log('📝 提取注释内容进行翻译:', textToTranslate);
     }
 
     // 增强文本预处理
@@ -718,7 +718,7 @@
         result = commentInfo.replacement.replace('$1', result);
       }
       
-      console.log(`${cached.source === 'memory' ? '🧠' : '⚡'} ${cached.source === 'memory' ? '翻译记忆' : '缓存'}命中: ${text.slice(0, 30)}...`);
+      // console.log(`${cached.source === 'memory' ? '🧠' : '⚡'} ${cached.source === 'memory' ? '翻译记忆' : '缓存'}命中: ${text.slice(0, 30)}...`);
       
       // 记录性能
       if (window.GLM_CONFIG && window.GLM_CONFIG.trackPerformance) {
@@ -842,13 +842,13 @@
       // 如果是代码注释，需要恢复原始格式
       if (isCodeComment && commentInfo) {
         finalText = commentInfo.replacement.replace('$1', finalText);
-        console.log('🔧 代码注释格式化完成:', finalText);
+        // console.log('🔧 代码注释格式化完成:', finalText);
       }
       
       // 记录性能
       const duration = Date.now() - startTime;
       
-      console.log(`⚡ 翻译完成 (${duration}ms): ${text.slice(0, 20)}... -> ${finalText.slice(0, 20)}...`);
+      // console.log(`⚡ 翻译完成 (${duration}ms): ${text.slice(0, 20)}... -> ${finalText.slice(0, 20)}...`);
       return finalText;
 
     } catch (error) {
@@ -857,7 +857,7 @@
       // 记录失败
       
       if (error.name === 'AbortError') {
-        console.log('🛑 翻译请求被中断');
+        // console.log('🛑 翻译请求被中断');
         throw new Error('翻译被中断');
       }
       
@@ -866,7 +866,7 @@
       // 智能重试逻辑
       if (retryCount < RETRY_ATTEMPTS - 1) {
         const retryDelay = RETRY_DELAY * Math.pow(2, retryCount); // 指数退避
-        console.log(`🔄 ${retryDelay}ms后重试...`);
+        // console.log(`🔄 ${retryDelay}ms后重试...`);
         await new Promise(resolve => setTimeout(resolve, retryDelay));
         return translateWithGLM(text, targetLang, retryCount + 1, apiIndex);
       }
@@ -887,9 +887,9 @@
     const firstHalf = textNodes.slice(0, midPoint);
     const secondHalf = textNodes.slice(midPoint);
     
-    console.log(`🔄 双API协同翻译启动:`);
-    console.log(`   API-1 负责前半部分: ${firstHalf.length} 个文本`);
-    console.log(`   API-2 负责后半部分: ${secondHalf.length} 个文本`);
+    // console.log(`🔄 双API协同翻译启动:`);
+    // console.log(`   API-1 负责前半部分: ${firstHalf.length} 个文本`);
+    // console.log(`   API-2 负责后半部分: ${secondHalf.length} 个文本`);
     
     // 为每个API创建独立的批次
     const firstHalfBatches = [];
@@ -922,7 +922,7 @@
           return;
         }
 
-        console.log(`🚀 智能翻译: ${originalText.slice(0, 30)}...`);
+        // console.log(`🚀 智能翻译: ${originalText.slice(0, 30)}...`);
         
         // 预先检查文本是否包含占位符
         const cleanedOriginalText = cleanPlaceholders(originalText);
@@ -942,11 +942,11 @@
           fromCache = true;
           cacheHitCount++;
           const cacheType = cached.source === 'memory' ? 'memoryHit' : 'cacheHit';
-          console.log(`${cached.source === 'memory' ? '🧠' : '⚡'} ${getLocalizedMessage(cacheType, targetLang)}: ${originalText.slice(0, 20)}...`);
+          // console.log(`${cached.source === 'memory' ? '🧠' : '⚡'} ${getLocalizedMessage(cacheType, targetLang)}: ${originalText.slice(0, 20)}...`);
         } else {
           // 使用清理后的文本进行翻译（指定API索引）
           translatedText = await translateWithGLM(cleanedOriginalText, targetLang, 0, apiIndex);
-          console.log(`🔧 API-${apiIndex + 1} 翻译: ${originalText.slice(0, 20)}...`);
+          // console.log(`🔧 API-${apiIndex + 1} 翻译: ${originalText.slice(0, 20)}...`);
         }
         
         if (!shouldCancelTranslation && node.parentNode) {
@@ -984,7 +984,7 @@
     // 创建双API处理器
     const processApiGroup = async (batches, apiIndex) => {
       const apiName = `API-${apiIndex + 1}`;
-      console.log(`🚀 ${apiName} 开始处理 ${batches.length} 个批次`);
+      // console.log(`🚀 ${apiName} 开始处理 ${batches.length} 个批次`);
       
       for (const batch of batches) {
         if (shouldCancelTranslation) break;
@@ -999,7 +999,7 @@
         await Promise.allSettled(batchPromises);
       }
       
-      console.log(`✅ ${apiName} 处理完成`);
+      // console.log(`✅ ${apiName} 处理完成`);
     };
 
     // 启动双API协同处理
@@ -1011,26 +1011,26 @@
     // 等待两个API处理器完成
     await Promise.allSettled(apiProcessors);
     
-    console.log(`🎯 双API协同翻译完成`);
+    // console.log(`🎯 双API协同翻译完成`);
 
     // 计算统计信息
     const batchDuration = Date.now() - batchStartTime;
     const cacheHitRate = totalCount > 0 ? (cacheHitCount / totalCount) * 100 : 0;
     
-    console.log(`📊 双API协同翻译统计:`);
-    console.log(`   总耗时: ${batchDuration}ms`);
-    console.log(`   成功率: ${Math.round((successCount / totalCount) * 100)}%`);
-    console.log(`   缓存命中率: ${Math.round(cacheHitRate)}%`);
-    console.log(`   翻译速度: ${Math.round(totalCount / (batchDuration / 1000))} 文本/秒`);
-    console.log(`   API-1 处理: ${firstHalf.length} 个文本`);
-    console.log(`   API-2 处理: ${secondHalf.length} 个文本`);
-    console.log(`   协同效率: 理论提升 ${Math.round((2 * Math.min(firstHalf.length, secondHalf.length) / totalCount) * 100)}%`);
+    // console.log(`📊 双API协同翻译统计:`);
+    // console.log(`   总耗时: ${batchDuration}ms`);
+    // console.log(`   成功率: ${Math.round((successCount / totalCount) * 100)}%`);
+    // console.log(`   缓存命中率: ${Math.round(cacheHitRate)}%`);
+    // console.log(`   翻译速度: ${Math.round(totalCount / (batchDuration / 1000))} 文本/秒`);
+    // console.log(`   API-1 处理: ${firstHalf.length} 个文本`);
+    // console.log(`   API-2 处理: ${secondHalf.length} 个文本`);
+    // console.log(`   协同效率: 理论提升 ${Math.round((2 * Math.min(firstHalf.length, secondHalf.length) / totalCount) * 100)}%`);
 
     // 保存页面翻译缓存
     if (translatedTexts.size > 0) {
       const pageKey = getCurrentPageKey();
       savePageTranslationCache(pageKey, targetLang, translatedTexts);
-      console.log(`💾 已保存页面翻译缓存: ${translatedTexts.size} 个文本`);
+      // console.log(`💾 已保存页面翻译缓存: ${translatedTexts.size} 个文本`);
     }
 
     // 批量翻译完成
@@ -1057,7 +1057,7 @@
           // 使用配置中的跳过标签列表
           const skipTags = window.GLM_CONFIG?.detection?.skipTags || ['script', 'style', 'noscript', 'code', 'pre', 'kbd', 'samp', 'var'];
           if (skipTags.includes(tagName)) {
-            console.log(`⏭️ 跳过标签: ${tagName}`);
+            // console.log(`⏭️ 跳过标签: ${tagName}`);
             return NodeFilter.FILTER_REJECT;
           }
           
@@ -1079,7 +1079,7 @@
                 parent.closest('.md-nav__item') ||
                 parent.closest('.md-sidebar') ||
                 tagName === 'li') {
-              console.log(`✅ 优先收集导航栏/目录元素: ${tagName}, 文本: ${text.slice(0, 30)}...`);
+              // console.log(`✅ 优先收集导航栏/目录元素: ${tagName}, 文本: ${text.slice(0, 30)}...`);
               return NodeFilter.FILTER_ACCEPT;
             }
           }
@@ -1092,10 +1092,10 @@
                                 parent.closest('.md-tabs') ||
                                 parent.closest('.md-nav') ||
                                 tagName === 'li')) {
-                console.log(`🔄 GLM_CONFIG建议跳过但强制收集导航栏元素: ${tagName}, 文本: ${text.slice(0, 30)}...`);
+                // console.log(`🔄 GLM_CONFIG建议跳过但强制收集导航栏元素: ${tagName}, 文本: ${text.slice(0, 30)}...`);
                 return NodeFilter.FILTER_ACCEPT;
               }
-              console.log(`⏭️ GLM_CONFIG跳过元素: ${tagName}, 文本: ${text.slice(0, 30)}...`);
+              // console.log(`⏭️ GLM_CONFIG跳过元素: ${tagName}, 文本: ${text.slice(0, 30)}...`);
               return NodeFilter.FILTER_REJECT;
             }
           }
@@ -1109,7 +1109,7 @@
                 element.closest('.md-header__option') ||
                 element.closest('.md-select') ||
                 element.closest('.md-source')) {
-              console.log(`⏭️ 跳过语言选择相关元素: ${element.className}`);
+              // console.log(`⏭️ 跳过语言选择相关元素: ${element.className}`);
               return NodeFilter.FILTER_REJECT;
             }
             
@@ -1120,7 +1120,7 @@
                 element.closest('.wcowin-header-title') ||
                 element.closest('.wcowin-header-subtitle') ||
                 element.closest('.wcowin-header-subtitle-inner')) {
-              console.log(`⏭️ 跳过主页标题相关元素: ${element.className}`);
+              // console.log(`⏭️ 跳过主页标题相关元素: ${element.className}`);
               return NodeFilter.FILTER_REJECT;
             }
             
@@ -1131,13 +1131,13 @@
           if (parent.classList?.contains('md-ellipsis') || 
               parent.closest('.md-tabs') ||
               parent.closest('.md-nav')) {
-            console.log(`🔍 发现导航栏元素: ${parent.className}, 文本: ${text.slice(0, 30)}...`);
+            // console.log(`🔍 发现导航栏元素: ${parent.className}, 文本: ${text.slice(0, 30)}...`);
             // 导航栏元素应该被翻译，继续处理
           }
           
           // 特别处理li元素，确保其文本能够被翻译
           if (parent.tagName.toLowerCase() === 'li') {
-            console.log('🔍 发现li元素文本:', text.slice(0, 50) + '...');
+            // console.log('🔍 发现li元素文本:', text.slice(0, 50) + '...');
           }
           
           return NodeFilter.FILTER_ACCEPT;
@@ -1623,7 +1623,7 @@
     showMinimalProgress(completed, total, targetLang = 'chinese_simplified') {
       const percentage = Math.round((completed / total) * 100);
       const progressMsg = getLocalizedMessage('translating', targetLang, {count: `${completed}/${total} (${percentage}%)`});
-      console.log(`🔄 ${progressMsg}`);
+      // console.log(`🔄 ${progressMsg}`);
     },
     
     // 显示弹窗进度（降低频率）
@@ -1796,7 +1796,7 @@
 
   // 恢复原文
   function restoreOriginalText() {
-    console.log('🔄 恢复原文...');
+    // console.log('🔄 恢复原文...');
     
     let restoredCount = 0;
     
@@ -1841,11 +1841,11 @@
     const pageKey = getCurrentPageKey();
     clearPageTranslationCache(pageKey);
     
-    console.log(`✅ 原文恢复完成，已恢复 ${restoredCount} 个文本节点，当前语言状态：中文`);
+    // console.log(`✅ 原文恢复完成，已恢复 ${restoredCount} 个文本节点，当前语言状态：中文`);
     
     // 如果没有恢复任何文本，检查是否需要重新收集
     if (restoredCount === 0) {
-      console.log('⚠️ 未找到可恢复的原文');
+      // console.log('⚠️ 未找到可恢复的原文');
       // 检查页面是否确实有中文内容
       const hasChineseContent = Array.from(document.body.querySelectorAll('*')).some(el => {
         const text = el.textContent?.trim();
@@ -1853,17 +1853,17 @@
       });
       
       if (hasChineseContent) {
-        console.log('📝 检测到中文内容，重新收集原文...');
+        // console.log('📝 检测到中文内容，重新收集原文...');
         collectAndSaveOriginalTexts();
       } else {
-        console.log('⚠️ 页面可能没有中文内容或已被完全翻译');
+        // console.log('⚠️ 页面可能没有中文内容或已被完全翻译');
       }
     }
   }
 
   // 取消当前翻译
   async function cancelCurrentTranslation(reason = '用户取消') {
-    console.log(`🛑 取消翻译: ${reason}`);
+    // console.log(`🛑 取消翻译: ${reason}`);
     shouldCancelTranslation = true;
     
     if (translationAbortController) {
@@ -1898,7 +1898,7 @@
     const pageStartTime = Date.now();
     
     if (isTranslating) {
-      console.log('⚠️ 翻译正在进行中，跳过重复请求');
+      // console.log('⚠️ 翻译正在进行中，跳过重复请求');
       return false;
     }
 
@@ -1922,7 +1922,7 @@
 
       // 检查当前语言状态
       if (currentLanguage === targetLang) {
-        console.log(`⚠️ 当前已是${targetLang}，跳过翻译`);
+        // console.log(`⚠️ 当前已是${targetLang}，跳过翻译`);
         if (showProgress) {
           showTranslateStatus(getLocalizedMessage('currentLang', targetLang, {language: targetLang}), 2000, targetLang);
         }
@@ -1934,11 +1934,11 @@
       const cachedTranslation = loadPageTranslationCache(pageKey, targetLang);
       
       if (cachedTranslation && cachedTranslation.size > 0) {
-        console.log(`🚀 发现页面翻译缓存，快速恢复 ${cachedTranslation.size} 个翻译`);
+        // console.log(`🚀 发现页面翻译缓存，快速恢复 ${cachedTranslation.size} 个翻译`);
         
         // 如果当前不是中文状态，先恢复到原文
         if (currentLanguage !== 'chinese_simplified') {
-          console.log('🔄 先恢复原文，确保从中文翻译');
+          // console.log('🔄 先恢复原文，确保从中文翻译');
           restoreOriginalText();
           await new Promise(resolve => setTimeout(resolve, 50));
         }
@@ -1947,7 +1947,7 @@
         if (restored) {
           currentLanguage = targetLang;
           const cacheRestoreTime = Date.now() - pageStartTime;
-          console.log(`⚡ 页面缓存恢复完成，耗时: ${cacheRestoreTime}ms`);
+          // console.log(`⚡ 页面缓存恢复完成，耗时: ${cacheRestoreTime}ms`);
           
           if (showProgress) {
             showTranslateStatus(`⚡ 缓存恢复完成 (${cacheRestoreTime}ms)`, 2000, targetLang);
@@ -1964,7 +1964,7 @@
 
       // 关键修复：如果当前不是中文状态，先恢复到原文再翻译
       if (currentLanguage !== 'chinese_simplified') {
-        console.log('🔄 先恢复原文，确保从中文翻译');
+        // console.log('🔄 先恢复原文，确保从中文翻译');
         restoreOriginalText();
         // 等待DOM更新
         await new Promise(resolve => setTimeout(resolve, 100));
@@ -1989,11 +1989,11 @@
       const avgTextLength = Math.round(totalChars / textNodes.length);
       const estimatedTime = Math.round((textNodes.length * 0.5) + (totalChars * 0.01));
       
-      console.log(`📝 翻译任务分析:`);
-      console.log(`   文本节点: ${textNodes.length} 个`);
-      console.log(`   总字符数: ${totalChars} 字符`);
-      console.log(`   平均长度: ${avgTextLength} 字符/文本`);
-      console.log(`   预估耗时: ${estimatedTime} 秒`);
+      // console.log(`📝 翻译任务分析:`);
+      // console.log(`   文本节点: ${textNodes.length} 个`);
+      // console.log(`   总字符数: ${totalChars} 字符`);
+      // console.log(`   平均长度: ${avgTextLength} 字符/文本`);
+      // console.log(`   预估耗时: ${estimatedTime} 秒`);
       
       // 翻译开始时的进度显示已在translateBatch中处理
 
@@ -2007,7 +2007,7 @@
       });
       
       const cacheHitRate = Math.round((cacheHitCount / textNodes.length) * 100);
-      console.log(`💾 缓存预检查: ${cacheHitCount}/${textNodes.length} (${cacheHitRate}%) 命中`);
+      // console.log(`💾 缓存预检查: ${cacheHitCount}/${textNodes.length} (${cacheHitRate}%) 命中`);
 
       // 批量翻译
       const completedCount = await translateBatch(textNodes, targetLang);
@@ -2033,11 +2033,11 @@
         const totalTime = Date.now() - pageStartTime;
         const translationSpeed = Math.round(textNodes.length / (totalTime / 1000));
         
-        console.log(`🎉 页面翻译完成统计:`);
-        console.log(`   总耗时: ${totalTime}ms`);
-        console.log(`   成功率: ${Math.round((completedCount / textNodes.length) * 100)}%`);
-        console.log(`   翻译速度: ${translationSpeed} 文本/秒`);
-        console.log(`   缓存命中率: ${cacheHitRate}%`);
+        // console.log(`🎉 页面翻译完成统计:`);
+        // console.log(`   总耗时: ${totalTime}ms`);
+        // console.log(`   成功率: ${Math.round((completedCount / textNodes.length) * 100)}%`);
+        // console.log(`   翻译速度: ${translationSpeed} 文本/秒`);
+        // console.log(`   缓存命中率: ${cacheHitRate}%`);
         
         // 翻译完成时的进度显示已在translateBatch中处理
         
@@ -2055,7 +2055,7 @@
         
         return true;
       } else {
-        console.log('🛑 翻译被中断');
+        // console.log('🛑 翻译被中断');
         return false;
       }
 
@@ -2064,7 +2064,7 @@
       
       // 记录错误
       const errorTime = Date.now() - pageStartTime;
-      console.log(`❌ 翻译错误，耗时: ${errorTime}ms`);
+      // console.log(`❌ 翻译错误，耗时: ${errorTime}ms`);
       
       if (showProgress) {
         showTranslateStatus(getLocalizedMessage('failed', targetLang), 4000, targetLang);
@@ -2363,7 +2363,7 @@
       if (language === 'chinese_simplified') {
         const hasTranslatedElements = document.querySelectorAll('[data-translated]').length > 0;
         if (hasTranslatedElements) {
-          console.log('🔄 检测到翻译内容与状态不一致，强制恢复中文');
+          // console.log('🔄 检测到翻译内容与状态不一致，强制恢复中文');
           restoreOriginalText();
           // 清除全局翻译偏好
           saveGlobalTranslationPreference(null);
@@ -2372,7 +2372,7 @@
         }
       }
       
-      console.log('🎯 目标语言与当前语言相同，跳过处理');
+      // console.log('🎯 目标语言与当前语言相同，跳过处理');
       showTranslateStatus(getLocalizedMessage('currentLang', language, {language: LANGUAGE_MAP[language]}), 2000, language);
       return true;
     }
@@ -2382,7 +2382,7 @@
       return new Promise((resolve) => {
         createTranslationScopeModal(language, async (scope) => {
           try {
-            console.log(`🎯 开始翻译: ${LANGUAGE_MAP[currentLanguage]} -> ${LANGUAGE_MAP[language]} (${scope === 'global' ? '全局' : '当前页面'})`);
+            // console.log(`🎯 开始翻译: ${LANGUAGE_MAP[currentLanguage]} -> ${LANGUAGE_MAP[language]} (${scope === 'global' ? '全局' : '当前页面'})`);
             
             const success = await translatePage(language, true);
             
@@ -2390,13 +2390,13 @@
               if (scope === 'global') {
                 // 设置全局翻译偏好
                 saveGlobalTranslationPreference(language);
-                console.log('🌐 已设置全局翻译偏好');
+                // console.log('🌐 已设置全局翻译偏好');
                 
                 // 确保当前语言状态同步
                 currentLanguage = language;
               } else {
                 // 仅当前页面翻译，不影响全局偏好
-                console.log('📄 仅翻译当前页面，保持全局偏好不变');
+                // console.log('📄 仅翻译当前页面，保持全局偏好不变');
                 
                 // 但要确保当前页面状态正确
                 currentLanguage = language;
@@ -2408,10 +2408,10 @@
               // 验证状态一致性
               const isValid = validateGlobalTranslationState();
               if (!isValid) {
-                console.log('⚠️ 翻译完成后状态验证失败，进行修正');
+                // console.log('⚠️ 翻译完成后状态验证失败，进行修正');
               }
               
-              console.log(`✅ 翻译完成: ${LANGUAGE_MAP[language]}`);
+              // console.log(`✅ 翻译完成: ${LANGUAGE_MAP[language]}`);
               resolve(true);
             } else {
               throw new Error('翻译失败');
@@ -2424,7 +2424,7 @@
       // 错误恢复
       try {
         restoreOriginalText();
-        console.log('🔄 已恢复为中文状态');
+        // console.log('🔄 已恢复为中文状态');
       } catch (recoveryError) {
         console.error('💥 错误恢复失败:', recoveryError);
       }
@@ -2437,7 +2437,7 @@
 
     // 恢复中文的逻辑
     try {
-      console.log('🔄 恢复为中文');
+      // console.log('🔄 恢复为中文');
       restoreOriginalText();
       saveGlobalTranslationPreference(null);
       showTranslateStatus(getLocalizedMessage('restored', language), 2000, language);
@@ -2453,7 +2453,7 @@
 
   // 收集并保存原文（在页面初始化时调用）
   function collectAndSaveOriginalTexts() {
-    console.log('📝 收集并保存页面原文...');
+    // console.log('📝 收集并保存页面原文...');
     
     const walker = document.createTreeWalker(
       document.body,
@@ -2491,16 +2491,16 @@
       }
     }
     
-    console.log(`✅ 已保存 ${savedCount} 个原文文本节点`);
+    // console.log(`✅ 已保存 ${savedCount} 个原文文本节点`);
   }
 
   // 页面加载完成后的初始化
   function initializeTranslation() {
-    console.log('🚀 智谱清言翻译系统初始化中...');
+    // console.log('🚀 智谱清言翻译系统初始化中...');
     
     // 验证配置
     if (config.debug?.enabled) {
-      console.log('📋 翻译系统配置:', config);
+      // console.log('📋 翻译系统配置:', config);
     }
     
     try {
@@ -2521,7 +2521,7 @@
       const pageState = pageTranslationStates.get(pageKey);
       
       if (pageState && pageState.language !== 'chinese_simplified') {
-        console.log(`🔄 检测到页面翻译状态: ${LANGUAGE_MAP[pageState.language]}`);
+        // console.log(`🔄 检测到页面翻译状态: ${LANGUAGE_MAP[pageState.language]}`);
         // 可以选择自动恢复翻译状态
         // translateTo(pageState.language);
       }
@@ -2529,11 +2529,11 @@
       // 验证初始化后的状态一致性
       const isStateValid = validateGlobalTranslationState();
       if (!isStateValid) {
-        console.log('⚠️ 初始化后状态验证失败，可能需要手动修正');
+        // console.log('⚠️ 初始化后状态验证失败，可能需要手动修正');
       }
       
-      console.log('✅ 智谱清言翻译系统已就绪');
-      console.log(`📊 当前状态: 语言=${currentLanguage}, 全局偏好=${globalTranslationPreference || '无'}`);
+      // console.log('✅ 智谱清言翻译系统已就绪');
+      // console.log(`📊 当前状态: 语言=${currentLanguage}, 全局偏好=${globalTranslationPreference || '无'}`);
     } catch (error) {
       console.error('❌ 翻译系统初始化失败:', error);
     }
@@ -2541,7 +2541,7 @@
 
   // 统一的即时导航处理
   function handleInstantNavigation() {
-    console.log('🔄 处理即时导航...');
+    // console.log('🔄 处理即时导航...');
     
     // 重置翻译状态
     isTranslating = false;
@@ -2556,7 +2556,7 @@
     // 保存当前页面的翻译状态（如果有的话）
     const currentPageKey = getCurrentPageKey();
     if (currentLanguage !== 'chinese_simplified') {
-      console.log(`💾 保存当前页面翻译状态: ${currentLanguage}`);
+      // console.log(`💾 保存当前页面翻译状态: ${currentLanguage}`);
       saveCurrentPageState();
     }
     
@@ -2564,7 +2564,7 @@
     const hasTranslatedElements = document.querySelectorAll('[data-translated]').length > 0;
     
     if (hasTranslatedElements) {
-      console.log('⚠️ 检测到页面有翻译内容，清理翻译状态');
+      // console.log('⚠️ 检测到页面有翻译内容，清理翻译状态');
       // 清理翻译标记，但不强制恢复原文
       document.querySelectorAll('[data-translated]').forEach(el => {
         el.removeAttribute('data-translated');
@@ -2598,18 +2598,18 @@
         targetLanguage = pageCache.language;
         shouldTranslate = true;
         translationSource = 'page_cache';
-        console.log(`📁 检测到页面翻译缓存: ${LANGUAGE_MAP[targetLanguage]}`);
+        // console.log(`📁 检测到页面翻译缓存: ${LANGUAGE_MAP[targetLanguage]}`);
       } else if (globalTranslationPreference && globalTranslationPreference !== 'chinese_simplified') {
         targetLanguage = globalTranslationPreference;
         shouldTranslate = true;
         translationSource = 'global_preference';
-        console.log(`🌐 检测到全局翻译偏好: ${LANGUAGE_MAP[globalTranslationPreference]}`);
+        // console.log(`🌐 检测到全局翻译偏好: ${LANGUAGE_MAP[globalTranslationPreference]}`);
       }
       
       if (shouldTranslate && targetLanguage) {
         setTimeout(async () => {
           try {
-            console.log(`🎯 开始应用翻译 (来源: ${translationSource}): ${LANGUAGE_MAP[targetLanguage]}`);
+            // console.log(`🎯 开始应用翻译 (来源: ${translationSource}): ${LANGUAGE_MAP[targetLanguage]}`);
             
             // 先尝试从缓存恢复
             const restored = await restorePageFromCache(pageKey, targetLanguage);
@@ -2618,12 +2618,12 @@
               // 缓存恢复失败，执行正常翻译
               const success = await translatePage(targetLanguage, false);
               if (success) {
-                console.log(`✅ 新页面自动翻译完成: ${LANGUAGE_MAP[targetLanguage]}`);
+                // console.log(`✅ 新页面自动翻译完成: ${LANGUAGE_MAP[targetLanguage]}`);
                 
                 // 如果是全局偏好翻译，确保状态同步
                 if (translationSource === 'global_preference') {
                   currentLanguage = targetLanguage;
-                  console.log(`🔄 同步全局翻译状态: ${targetLanguage}`);
+                  // console.log(`🔄 同步全局翻译状态: ${targetLanguage}`);
                 }
               } else {
                 console.warn('⚠️ 新页面自动翻译失败');
@@ -2631,14 +2631,14 @@
             } else {
               // 缓存恢复成功，同步状态
               currentLanguage = targetLanguage;
-              console.log(`✅ 从缓存恢复翻译状态: ${targetLanguage}`);
+              // console.log(`✅ 从缓存恢复翻译状态: ${targetLanguage}`);
             }
           } catch (error) {
             console.error('💥 页面翻译处理失败:', error);
           }
         }, 250); // 增加延迟确保页面完全加载和原文收集完成
       } else {
-        console.log('📝 页面保持中文状态');
+        // console.log('📝 页面保持中文状态');
       }
     }, 200); // 增加延迟确保DOM更新完成
   }
@@ -2678,7 +2678,7 @@
             localStorage.removeItem(key);
           }
         });
-        console.log('🗑️ 已清除所有页面翻译缓存');
+        // console.log('🗑️ 已清除所有页面翻译缓存');
       }
     },
     restoreFromCache: (pageKey, language) => restorePageFromCache(pageKey, language),
@@ -2724,15 +2724,15 @@
         resetTranslationState();
       },
       fixState: () => {
-        console.log('🔧 修复翻译状态...');
+        // console.log('🔧 修复翻译状态...');
         const syncResult = syncGlobalTranslationState();
         const isValid = validateGlobalTranslationState();
-        console.log(`修复结果: 同步=${syncResult || '无'}, 验证=${isValid ? '通过' : '失败'}`);
+        // console.log(`修复结果: 同步=${syncResult || '无'}, 验证=${isValid ? '通过' : '失败'}`);
         return { synced: syncResult, valid: isValid };
       },
       // 测试翻译过滤逻辑 - 增强版本：包含代码注释测试
       testTranslationFilter: () => {
-        console.log('🧪 测试翻译过滤逻辑...');
+        // console.log('🧪 测试翻译过滤逻辑...');
         const testTexts = [
           '优先级顺序：Front Matter > 文件系统时间戳(缓存) > Git时间戳',
           '插件名称：Plugin Name',
@@ -2744,7 +2744,7 @@
           'API文档说明',
           '使用Docker容器部署',
           'function myFunction() { return true; }',
-          'console.log("Hello World");',
+          '// console.log("Hello World");',
           '# 显示位置：top（标题后） bottom（文档末尾），默认：bottom',
           '// 这是一个JavaScript注释',
           '/* 这是一个多行注释 */',
@@ -2762,16 +2762,16 @@
           const isCodeComment = window.GLM_CONFIG?.isCodeComment?.(text);
           const commentInfo = isCodeComment ? window.GLM_CONFIG?.extractCommentText?.(text) : null;
           
-          console.log(`📝 文本: "${text.slice(0, 40)}${text.length > 40 ? '...' : ''}"`);
-          console.log(`   ✅ shouldTranslateText: ${shouldTranslate}`);
-          console.log(`   ⚠️ GLM_CONFIG.shouldSkipTranslation: ${skipByConfig}`);
-          console.log(`   🔧 是否为代码注释: ${isCodeComment}`);
+          // console.log(`📝 文本: "${text.slice(0, 40)}${text.length > 40 ? '...' : ''}"`);
+          // console.log(`   ✅ shouldTranslateText: ${shouldTranslate}`);
+          // console.log(`   ⚠️ GLM_CONFIG.shouldSkipTranslation: ${skipByConfig}`);
+          // console.log(`   🔧 是否为代码注释: ${isCodeComment}`);
           if (commentInfo) {
-            console.log(`   📄 注释内容: "${commentInfo.commentContent}"`);
-            console.log(`   🎨 格式模板: "${commentInfo.replacement}"`);
+            // console.log(`   📄 注释内容: "${commentInfo.commentContent}"`);
+            // console.log(`   🎨 格式模板: "${commentInfo.replacement}"`);
           }
-          console.log(`   🎯 最终结果: ${shouldTranslate && !skipByConfig ? '翻译' : '跳过'}`);
-          console.log('---');
+          // console.log(`   🎯 最终结果: ${shouldTranslate && !skipByConfig ? '翻译' : '跳过'}`);
+          // console.log('---');
         });
       }
     }

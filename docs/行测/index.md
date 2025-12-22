@@ -13,8 +13,7 @@ hide: path
 
 	- [归因论证](判断推理/归因论证.md) 
     - [一般质疑](判断推理/一般质疑.md)
-    - [支持与前提假设](判断推理/支持与前提假设.md)
-    - [比例和解释说明](判断推理/比例和解释说明.md)
+    - [支持、前提、解释](判断推理/支持、前提、解释.md)
     - [逻辑基础](判断推理/逻辑基础.md)
     - [推出推理](判断推理/推出推理.md)
     - [分析推理](判断推理/分析推理.md)
@@ -78,7 +77,7 @@ hide: path
 }
 
 /* 2. 核心逻辑：只有超过 8 个元素的列表才启用 Grid */
-.md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) {
+.md-typeset .grid.cards > ul > li > ul:has(li:nth-child(8)) {
     display: grid;
     
     /* 关键命令：垂直方向优先填充！ */
@@ -97,7 +96,7 @@ hide: path
 }
 
 /* 3. 修复小圆点 (因为 Grid 布局会吞掉默认的列表圆点) */
-.md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) li {
+.md-typeset .grid.cards > ul > li > ul:has(li:nth-child(8)) li {
     display: flex; /* 让伪元素圆点和文字对齐 */
     align-items: baseline; /* 文字基线对齐 */
     margin-left: 0;
@@ -105,7 +104,7 @@ hide: path
 }
 
 /* 手动画一个圆点 */
-.md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) li::before {
+.md-typeset .grid.cards > ul > li > ul:has(li:nth-child(8)) li::before {
     content: "•";           /* 实心圆点字符 */
 	/* font-size: 18px; */
     color: var(--md-default-fg-color); /* 跟随主题色 */
@@ -115,19 +114,19 @@ hide: path
 }
 
 /* 4. 手机端适配：屏幕窄时取消 Grid，变回普通单列 */
-@media screen and (max-width: 600px) {
-    .md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) {
+@media screen and (max-width: 800px) {
+    .md-typeset .grid.cards > ul > li > ul:has(li:nth-child(8)) {
         display: block; /* 变回普通块级元素 */
     }
     /* 手机端不需要手画圆点，恢复默认圆点 */
-    .md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) li {
+    .md-typeset .grid.cards > ul > li > ul:has(li:nth-child(8)) li {
         display: list-item;
         list-style-type: disc;
         list-style-position: outside;
         margin-left: 1.2em; /* 恢复左缩进 */
 		margin-bottom: .5em;
     }
-    .md-typeset .grid.cards > ul > li > ul:has(li:nth-child(9)) li::before {
+    .md-typeset .grid.cards > ul > li > ul:has(li:nth-child(8)) li::before {
         content: none; /* 隐藏手画圆点 */
     }
 }

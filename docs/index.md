@@ -65,6 +65,7 @@
     
     - [成语-实词](https://cy.swsw.eu.org/)
     - [申论素材](https://sl.swsw.eu.org/)
+    - [空间思维](https://cube.swsw.eu.org/)
     - [人民日报](https://paper.people.com.cn/)
     - [半月谈](http://www.banyuetan.org/)
 

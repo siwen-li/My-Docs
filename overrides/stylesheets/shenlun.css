@@ -1,0 +1,224 @@
+/* docs/assets/shenlun.css */
+
+/* ==========================================================================
+   1. 基础样式 (Light Mode / Default)
+   ========================================================================== */
+
+.shenlun-wrapper {
+    /* --- 核心尺寸调整 --- */
+    /* 公式：(26px * 25) + 2px   = 652px + 30px = 682px */
+    --paper-width: 762px;      
+    --cell-size: 28px;        
+    --font-size: 18px; /* 适配小格子 */
+    
+    --grid-color: rgba(255, 82, 82, 0.4); 
+    --text-color: #2c3e50;
+    --font-face: "KaiTi", "楷体", "STKaiti", "SimSun", serif;
+    
+    /* background-color: #e0e0e0; */
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    font-family: var(--font-face);
+    /* 建议加上 margin 防止贴顶 */
+    margin: 20px 0; 
+}
+
+.shenlun-wrapper .paper-container {
+    width: var(--paper-width);
+    min-width: var(--paper-width);
+    background-color: #fff;
+    padding: 40px 30px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-sizing: border-box; 
+    text-align: left;
+    line-height: normal;
+    margin-bottom: 20px;
+    border-radius: 16px;
+    break-inside: avoid;
+    page-break-after: always;
+    transition: background-color 0.3s, box-shadow 0.3s; /* 添加过渡效果 */
+}
+
+.shenlun-wrapper .paper-container:last-child {
+    margin-bottom: 0;
+}
+
+.shenlun-wrapper .grid-row {
+    display: flex;
+    width: 100%;
+    height: var(--cell-size);
+    margin-bottom: 6px;   
+    border: 1px solid var(--grid-color);
+    box-sizing: border-box;   
+    position: relative;
+    padding: 0;
+}
+
+.shenlun-wrapper .grid-cell {
+    flex: 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size); 
+    color: var(--text-color);
+    border-right: 1px solid var(--grid-color);
+    position: relative;
+    line-height: 1;
+    white-space: nowrap; 
+    padding: 0;
+    margin: 0;
+}
+
+.shenlun-wrapper .grid-cell:nth-child(25) {
+    border-right: none;
+}
+
+/* 数字序号 */
+.shenlun-wrapper .grid-cell.is-number {
+    font-family: "Times New Roman", serif;
+    /* letter-spacing: 2px; */
+}
+
+/* 纯双标点同格 */
+.shenlun-wrapper .grid-cell.double-punct {
+    font-family: var(--font-face);
+    letter-spacing: -5px; 
+    text-indent: -3px;   
+}
+
+/* 挤压样式 */
+.shenlun-wrapper .grid-cell.squeeze-punct {
+    overflow: hidden;
+}
+
+.shenlun-wrapper .grid-cell.squeeze-punct .char {
+    transform: translateX(-4px); 
+    display: inline-block;
+}
+
+.shenlun-wrapper .grid-cell.squeeze-punct .punct {
+    position: absolute;
+    right: -5px; 
+    height: 100%;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    font-family: var(--font-face);
+    letter-spacing: -3px; 
+}
+
+
+.shenlun-wrapper .grid-cell.double-x {
+    /* 1. 字体：使用 Times New Roman，与数字风格统一，且有正式感 */
+    font-family: "Times New Roman", serif;
+    font-size: 20px; 
+    letter-spacing: -1px; 
+    transform: translateY(-1px);
+    color: var(--text-color);
+}
+
+.shenlun-wrapper .grid-cell.double-num {
+    /* font-family: "Times New Roman", serif; */
+    font-size: 20px; 
+    color: var(--text-color);
+}
+
+/* 字数标记 */
+.shenlun-wrapper .word-count-mark {
+    position: absolute;
+    bottom: -12px; 
+    right: 0;
+    font-size: 9px; 
+    transform: scale(0.85); 
+    transform-origin: right top;
+    color: #999;
+    font-family: Arial, sans-serif;
+    pointer-events: none;
+}
+
+/* 打印适配 */
+@media print {
+    body, .shenlun-wrapper {
+        background: none !important;
+        padding: 0;
+        margin: 0;
+    }
+    .shenlun-wrapper .paper-container {
+        box-shadow: none !important;
+        margin-bottom: 0;
+        border: none !important;
+        background-color: transparent !important;
+    }
+    /* 打印时强制保持红线和黑字，不受夜间模式影响 */
+    .shenlun-wrapper {
+        --grid-color: rgba(255, 82, 82, 0.4) !important;
+        --text-color: #000 !important;
+    }
+}
+
+
+/* ==========================================================================
+   2. 夜间模式适配 (Dark Mode) - 修复版
+   ========================================================================== */
+
+/* 
+   核心修复说明：
+   不能在 body[...] 选择器后面直接写 .shenlun-wrapper 的嵌套样式。
+   必须写完整的选择器路径。
+*/
+
+/* 针对 MkDocs Material 主题的 Slate 模式 */
+body[data-md-color-scheme="slate"] .shenlun-wrapper {
+    /* 1. 变量重写：文字变白，红线变淡 */
+    --text-color: #e6e6e6 !important;
+    --grid-color: rgba(255, 120, 120, 0.25) !important;
+    
+    /* 2. 移除最外层的灰色背景，透出网页底色 */
+    background-color: transparent !important;
+}
+
+/* 针对 MkDocs Material 主题的 Slate 模式 - 纸张容器 */
+body[data-md-color-scheme="slate"] .shenlun-wrapper .paper-container {
+    /* 3. 纸张变黑 */
+    background-color: #1e1e1e !important;
+    /* 4. 增加微弱亮边框，防止纸张边缘看不清 */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    /* 5. 加深阴影 */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* 针对 MkDocs Material 主题的 Slate 模式 - 字数标记 */
+body[data-md-color-scheme="slate"] .shenlun-wrapper .word-count-mark {
+    color: #888 !important;
+}
+
+/* 针对 MkDocs Material 主题的 Slate 模式 - 选中效果 */
+body[data-md-color-scheme="slate"] .shenlun-wrapper .grid-cell::selection,
+body[data-md-color-scheme="slate"] .shenlun-wrapper .grid-cell *::selection {
+    background-color: rgba(255, 82, 82, 0.4);
+    color: #fff;
+}
+
+
+/* ==========================================================================
+   3. 系统深色模式适配 (作为备用，当不使用 Slate 主题但系统是深色时)
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+    /* 只有当 body 没有明确指定 data-md-color-scheme="default" (即强制亮色) 时才生效 */
+    body:not([data-md-color-scheme="default"]) .shenlun-wrapper {
+        --text-color: #e6e6e6 !important;
+        --grid-color: rgba(255, 120, 120, 0.25) !important;
+        background-color: transparent !important;
+    }
+
+    body:not([data-md-color-scheme="default"]) .shenlun-wrapper .paper-container {
+        background-color: #1e1e1e !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    body:not([data-md-color-scheme="default"]) .shenlun-wrapper .word-count-mark {
+        color: #888 !important;
+    }
+}

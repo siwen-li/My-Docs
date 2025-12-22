@@ -103,7 +103,7 @@ window.GLM_CONFIG = {
     
     // 检查是否为版权信息或其他不应翻译的内容
     if (/^Copyright\s*©|^©\s*\d{4}|^Made\s+with|^Powered\s+by|^\d{4}-\d{4}\s+\w+/i.test(trimmedText)) {
-      console.log(`⏭️ 跳过版权信息: ${trimmedText}`);
+      // console.log(`⏭️ 跳过版权信息: ${trimmedText}`);
       return false;
     }
     
@@ -116,7 +116,7 @@ window.GLM_CONFIG = {
       element.closest('.footer-social') ||
       element.closest('.md-social')
     )) {
-      console.log(`⏭️ 跳过页脚区域内容: ${trimmedText}`);
+      // console.log(`⏭️ 跳过页脚区域内容: ${trimmedText}`);
       return false;
     }
     
@@ -146,7 +146,7 @@ window.GLM_CONFIG = {
       const isNavText = ['span', 'a', 'div'].includes(tagName) && isInNavContainer;
       
       if (isNavElement || isInNavContainer || isListOrHeading || isNavText) {
-        console.log(`✅ 导航/UI元素包含中文，允许翻译: ${trimmedText.slice(0, 30)}... (${tagName})`);
+        // console.log(`✅ 导航/UI元素包含中文，允许翻译: ${trimmedText.slice(0, 30)}... (${tagName})`);
         return true;
       }
     }
@@ -154,7 +154,7 @@ window.GLM_CONFIG = {
     // 检查元素标签（特殊处理code标签）
     const tagName = element.tagName ? element.tagName.toLowerCase() : '';
     if (this.detection.skipTags.includes(tagName)) {
-      console.log(`⏭️ 跳过标签: ${tagName}`);
+      // console.log(`⏭️ 跳过标签: ${tagName}`);
       return false;
     }
     
@@ -163,7 +163,7 @@ window.GLM_CONFIG = {
       // 检查是否为纯代码内容（包含特殊字符、英文关键词等）
       const codePattern = /^[\w\s\-_\.\(\)\[\]\{\}\<\>\=\+\*\/\\\|\&\%\$\#\@\!\?\:;,"'`~]+$/;
       if (!codePattern.test(trimmedText)) {
-        console.log(`✅ Code标签包含中文，允许翻译: ${trimmedText.slice(0, 30)}...`);
+        // console.log(`✅ Code标签包含中文，允许翻译: ${trimmedText.slice(0, 30)}...`);
         return true;
       }
     }
@@ -174,7 +174,7 @@ window.GLM_CONFIG = {
       element.hasAttribute('translate') && element.getAttribute('translate') === 'no' ||
       element.classList && element.classList.contains('no-translate')
     )) {
-      console.log(`⏭️ 跳过属性标记的元素: ${tagName}`);
+      // console.log(`⏭️ 跳过属性标记的元素: ${tagName}`);
       return false;
     }
     
@@ -186,7 +186,7 @@ window.GLM_CONFIG = {
       if ((href && href.includes('__codelineno')) || 
           (id && id.includes('__codelineno')) ||
           (name && name.includes('__codelineno'))) {
-        console.log(`⏭️ 跳过代码行号链接: ${href || id || name}`);
+        // console.log(`⏭️ 跳过代码行号链接: ${href || id || name}`);
         return false;
       }
     }
@@ -200,11 +200,11 @@ window.GLM_CONFIG = {
             const pattern = selector.replace(/\*/g, '.*');
             const regex = new RegExp(pattern);
             if (element.className && regex.test(element.className)) {
-              console.log(`⏭️ 跳过通配符选择器匹配: ${selector}`);
+              // console.log(`⏭️ 跳过通配符选择器匹配: ${selector}`);
               return false;
             }
           } else if (element.matches && element.matches(selector)) {
-            console.log(`⏭️ 跳过选择器匹配: ${selector}`);
+            // console.log(`⏭️ 跳过选择器匹配: ${selector}`);
             return false;
           }
         } catch (e) {
@@ -219,13 +219,13 @@ window.GLM_CONFIG = {
     while (parent) {
       const parentTag = parent.tagName ? parent.tagName.toLowerCase() : '';
       if (['pre', 'script', 'style'].includes(parentTag)) {
-        console.log(`⏭️ 跳过代码相关父元素: ${parentTag}`);
+        // console.log(`⏭️ 跳过代码相关父元素: ${parentTag}`);
         return false;
       }
       
       // 特殊处理code父元素：如果当前元素包含中文则允许翻译
       if (parentTag === 'code' && !hasChinese) {
-        console.log(`⏭️ 跳过code父元素（无中文）: ${parentTag}`);
+        // console.log(`⏭️ 跳过code父元素（无中文）: ${parentTag}`);
         return false;
       }
       
@@ -254,21 +254,21 @@ window.GLM_CONFIG = {
         parent.classList.contains('linenos') ||
         parent.classList.contains('linenodiv')
       )) {
-        console.log(`⏭️ 跳过代码相关父元素类: ${parent.className}`);
+        // console.log(`⏭️ 跳过代码相关父元素类: ${parent.className}`);
         return false;
       }
       
       // 检查是否为代码块表格结构
       if (parent.tagName && parent.tagName.toLowerCase() === 'table' && 
           parent.classList && parent.classList.contains('highlighttable')) {
-        console.log(`⏭️ 跳过代码块表格结构`);
+        // console.log(`⏭️ 跳过代码块表格结构`);
         return false;
       }
       
       // 检查是否为代码行号相关的td元素
       if (parent.tagName && parent.tagName.toLowerCase() === 'td' && 
           (parent.classList.contains('linenos') || parent.classList.contains('code'))) {
-        console.log(`⏭️ 跳过代码行号td元素`);
+        // console.log(`⏭️ 跳过代码行号td元素`);
         return false;
       }
       
@@ -276,7 +276,7 @@ window.GLM_CONFIG = {
       if (parent.className && !isNavParent) {
         const className = parent.className;
         if (/language-|lang-/.test(className)) {
-          console.log(`⏭️ 跳过语言相关类名: ${className}`);
+          // console.log(`⏭️ 跳过语言相关类名: ${className}`);
           return false;
         }
       }
@@ -292,7 +292,7 @@ window.GLM_CONFIG = {
         );
         
         if (!isNavSpan && /\b(nt|p|w|l|c1|s)\b/.test(spanClasses)) {
-          console.log(`⏭️ 跳过代码高亮span: ${spanClasses}`);
+          // console.log(`⏭️ 跳过代码高亮span: ${spanClasses}`);
           return false;
         }
       }
@@ -968,13 +968,13 @@ window.GLM_CONFIG.shouldSkipTranslation = function(text, targetLang = null) {
   
   // 优先检查代码注释 - 如果是包含中文的注释，应该翻译
   if (this.isCodeComment && this.isCodeComment(trimmedText)) {
-    console.log('✅ 发现代码注释，允许翻译:', trimmedText.slice(0, 50) + '...');
+    // console.log('✅ 发现代码注释，允许翻译:', trimmedText.slice(0, 50) + '...');
     return false; // 不跳过，应该翻译
   }
   
   // 检查普通的Markdown代码区域
   if (this.isMarkdownCode(trimmedText)) {
-    console.log(`⚠️ 跳过Markdown代码区域: ${trimmedText.slice(0, 50)}...`);
+    // console.log(`⚠️ 跳过Markdown代码区域: ${trimmedText.slice(0, 50)}...`);
     return true;
   }
   
@@ -1007,7 +1007,7 @@ window.GLM_CONFIG.shouldSkipTranslation = function(text, targetLang = null) {
     if (words.length > 0 && 
         (chineseWords.length / words.length) < 0.2 && 
         (technicalWordCount / words.length) > 0.8) {
-      console.log(`⚠️ 跳过技术术语密集文本: ${trimmedText.slice(0, 50)}...`);
+      // console.log(`⚠️ 跳过技术术语密集文本: ${trimmedText.slice(0, 50)}...`);
       return true;
     }
     
@@ -1019,7 +1019,7 @@ window.GLM_CONFIG.shouldSkipTranslation = function(text, targetLang = null) {
       ).length;
       
       if (englishWords.length > 0 && (technicalEnglishCount / englishWords.length) > 0.5) {
-        console.log(`⚠️ 跳过英文技术术语组合: ${trimmedText}`);
+        // console.log(`⚠️ 跳过英文技术术语组合: ${trimmedText}`);
         return true;
       }
     }
@@ -1060,7 +1060,7 @@ window.GLM_CONFIG.shouldSkipTranslation = function(text, targetLang = null) {
       /^\{%\s*(set|if|for|endif|endfor|else|elif)[\s\S]*?%\}$/.test(trimmedText) || // 模板控制语句
       /page\.(meta|title|content)\.[a-zA-Z_][a-zA-Z0-9_]*/.test(trimmedText) || // 页面变量访问
       /^[a-zA-Z_][a-zA-Z0-9_]*\s*=\s*[^\s]/.test(trimmedText)) { // 变量赋值
-    console.log(`⚠️ 跳过代码/模板语法: ${trimmedText.slice(0, 50)}...`);
+    // console.log(`⚠️ 跳过代码/模板语法: ${trimmedText.slice(0, 50)}...`);
     return true;
   }
   
@@ -1092,7 +1092,7 @@ window.GLM_CONFIG.isMarkdownCode = function(text) {
       /\{#[\s\S]*?#\}/.test(trimmedText) || // {# #} 注释语法
       /\{\{-[\s\S]*?-\}\}/.test(trimmedText) || // {{- -}} 语法
       /\{%-[\s\S]*?-%\}/.test(trimmedText)) { // {%- -%} 语法
-    console.log(`⚠️ 检测到模板语法: ${trimmedText.slice(0, 50)}...`);
+    // console.log(`⚠️ 检测到模板语法: ${trimmedText.slice(0, 50)}...`);
     return true;
   }
   
@@ -1100,7 +1100,7 @@ window.GLM_CONFIG.isMarkdownCode = function(text) {
   if (/page\.(meta|title|content)\.[a-zA-Z_][a-zA-Z0-9_]*/.test(trimmedText) || // 页面变量
       /^[a-zA-Z_][a-zA-Z0-9_]*\s*=\s*[^\s]/.test(trimmedText) || // 变量赋值
       /^\{%\s*(set|if|for|endif|endfor|else|elif)/.test(trimmedText)) { // 模板控制语句
-    console.log(`⚠️ 检测到模板变量/控制语句: ${trimmedText.slice(0, 50)}...`);
+    // console.log(`⚠️ 检测到模板变量/控制语句: ${trimmedText.slice(0, 50)}...`);
     return true;
   }
   
@@ -1141,7 +1141,7 @@ window.GLM_CONFIG.isMarkdownCode = function(text) {
   
   // 检查是否匹配代码模式
   if (codePatterns.some(pattern => pattern.test(trimmedText))) {
-    console.log(`⚠️ 检测到代码模式: ${trimmedText.slice(0, 50)}...`);
+    // console.log(`⚠️ 检测到代码模式: ${trimmedText.slice(0, 50)}...`);
     return true;
   }
   
@@ -1152,7 +1152,7 @@ window.GLM_CONFIG.isMarkdownCode = function(text) {
   
   // 如果编程符号占比超过25%，认为是代码（降低阈值提高检测敏感度）
   if (symbolRatio > 0.25) {
-    console.log(`⚠️ 检测到高密度编程符号 (${(symbolRatio * 100).toFixed(1)}%): ${trimmedText.slice(0, 50)}...`);
+    // console.log(`⚠️ 检测到高密度编程符号 (${(symbolRatio * 100).toFixed(1)}%): ${trimmedText.slice(0, 50)}...`);
     return true;
   }
   
@@ -1160,7 +1160,7 @@ window.GLM_CONFIG.isMarkdownCode = function(text) {
   if (/^\s*[a-zA-Z_][a-zA-Z0-9_-]*\s*:\s*/.test(trimmedText) || // YAML格式
       /^\s*"[^"]+"\s*:\s*/.test(trimmedText) || // JSON格式
       /^\s*[a-zA-Z_][a-zA-Z0-9_-]*\s*=\s*/.test(trimmedText)) { // 配置格式
-    console.log(`⚠️ 检测到配置文件格式: ${trimmedText.slice(0, 50)}...`);
+    // console.log(`⚠️ 检测到配置文件格式: ${trimmedText.slice(0, 50)}...`);
     return true;
   }
   
@@ -1170,7 +1170,7 @@ window.GLM_CONFIG.isMarkdownCode = function(text) {
       /^\$\{[^}]+\}/.test(trimmedText) || // 模板字符串变量
       /^[a-zA-Z_][a-zA-Z0-9_]*::[a-zA-Z_]/.test(trimmedText) || // 命名空间访问
       /^@[a-zA-Z_][a-zA-Z0-9_]*/.test(trimmedText)) { // 装饰器
-    console.log(`⚠️ 检测到代码标识符: ${trimmedText.slice(0, 50)}...`);
+    // console.log(`⚠️ 检测到代码标识符: ${trimmedText.slice(0, 50)}...`);
     return true;
   }
   
@@ -1201,7 +1201,7 @@ window.GLM_CONFIG.isCodeComment = function(text) {
       const commentContent = match[1] || match[0];
       // 只有包含中文的注释才需要翻译
       if (/[\u4e00-\u9fff]/.test(commentContent)) {
-        console.log('✅ 发现可翻译的代码注释:', commentContent.slice(0, 30) + '...');
+        // console.log('✅ 发现可翻译的代码注释:', commentContent.slice(0, 30) + '...');
         return true;
       }
     }

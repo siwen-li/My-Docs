@@ -26,6 +26,7 @@ extra_javascript = [
     "https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js",  # 表格排序
     "javascripts/tablesort.js",
     "javascripts/oneko.js",
+    "javascripts/shenlun.js",                                  # 申论纸
     
     # "javascripts/mathjax.js",                                 # MathJax 配置
     # "https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"       # MathJax CDN
@@ -39,7 +40,8 @@ extra_css = [
     "stylesheets/extra.css",          # 额外样式
     "stylesheets/ziti.css",            # 字体样式
     "stylesheets/custom.css",           # 自定义样式
-    "https://unpkg.com/katex@0/dist/katex.min.css"
+    "https://unpkg.com/katex@0/dist/katex.min.css",
+    "stylesheets/shenlun.css",      # 申论纸
 ]
 
 
@@ -59,8 +61,7 @@ nav = [
         { "判断推理" = [
             "行测/判断推理/归因论证.md",
             "行测/判断推理/一般质疑.md",
-            "行测/判断推理/支持与前提假设.md",
-            "行测/判断推理/比例和解释说明.md",
+            "行测/判断推理/支持、前提、解释.md",
             "行测/判断推理/逻辑基础.md",
             "行测/判断推理/推出推理.md",
             "行测/判断推理/分析推理.md",
@@ -103,11 +104,16 @@ nav = [
 
     { "申论" = [
         { "申论" = "申论/index.md" },
-        "申论/范文.md"
+        "申论/范文.md",
+        "申论/申论纸排版.md",
+        "申论/test.md",
+        "申论/宣传稿.md",
+        "申论/编者按.md",
     ]},
 
     { "新闻" = [
         { "新闻" = "新闻/index.md" },
+        "新闻/人民日报.md",
         "新闻/新闻.md",
         "新闻/热搜.md",
         
@@ -371,7 +377,7 @@ note = "note"
 [project.markdown_extensions.md_in_html]
 [project.markdown_extensions.pymdownx.blocks.caption]
 [project.markdown_extensions.toc]
-toc_depth = 3
+toc_depth = 4
 permalink = true  # 固定标题位置为当前位置，显示 # 符号
 # permalink = "⚓︎"
 # permalink_title = "Anchor link to this section"
@@ -380,6 +386,8 @@ generic = true
 [project.markdown_extensions.pymdownx.betterem]
 smart_enable = "all"
 [project.markdown_extensions.pymdownx.caret]
+[project.markdown_extensions.pymdownx.critic]
+mode = "view"
 [project.markdown_extensions.pymdownx.details]
 [project.markdown_extensions.pymdownx.emoji]
 emoji_generator = "zensical.extensions.emoji.to_svg"
