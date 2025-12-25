@@ -54,6 +54,7 @@ nav = [
         "开始/markdown 基础语法.md",
         "开始/PyMdown 扩展语法.md",
         "开始/front matter.md",
+        "开始/专注时钟.md"
     ]},
 
     { "行测" = [
@@ -192,7 +193,7 @@ features = [
     "content.code.copy",          # 代码复制按钮
     "content.code.select",        # 代码选择功能
     "content.code.annotate",      # 代码注释功能
-    "content.tabs.link",          # tabbed tabs链接
+    # "content.tabs.link",          # tabbed tabs链接
     "content.action.edit",
     # "content.action.view"
 ]

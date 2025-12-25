@@ -78,6 +78,7 @@
     - [Excalidraw](https://excalidraw.com/)
     - [思维导图](https://mm.siwen.eu.org/)
     - [linux 命令查询](https://cmd.swsw.eu.org/)
+    - [专注时钟](./开始/专注时钟.md)
 
 
 </div>
