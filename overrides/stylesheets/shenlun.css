@@ -222,3 +222,77 @@ body[data-md-color-scheme="slate"] .shenlun-wrapper .grid-cell *::selection {
         color: #888 !important;
     }
 }
+
+
+/* ==========================================================================
+   移动端适配：全屏缩放版 (Fit-to-Screen / No Scroll)
+   ========================================================================== */
+
+@media screen and (max-width: 800px) {
+    .shenlun-wrapper {
+        /* 1. 强制铺满屏幕，禁止横向滚动 */
+        display: block !important;
+        width: auto;
+        margin: 10px -16px; /* 抵消 MkDocs 的默认页边距，让纸张贴边 */
+        overflow-x: hidden; /* 裁剪多余部分 */
+
+        /* 2. 核心计算：动态格子大小 */
+        /* 逻辑：(100vw 视口宽度 - 20px 纸张左右留白) / 25格 */
+        --cell-size: calc((100vw - 20px) / 25);
+        
+        /* 3. 字体缩小到极限 (建议 9px-11px) */
+        --font-size: 10px; 
+        
+        /* 4. 纸张宽度设为 100% */
+        --paper-width: 100%;
+    }
+
+    .shenlun-wrapper .paper-container {
+        width: 100% !important;
+        min-width: 0 !important; /* 允许压缩 */
+        padding: 15px 5px !important; /* 左右仅留极窄的白边 */
+        box-sizing: border-box;
+    }
+
+    /* 5. 调整特殊格子样式，防止错位 */
+    
+    /* 普通格子内的微调 */
+    .shenlun-wrapper .grid-cell {
+        border-right-width: 0.5px; /* 细边框，防止看起来太粗 */
+    }
+    .shenlun-wrapper .grid-row {
+        border-bottom-width: 0.5px;
+        margin-bottom: 2px; /* 行间距缩小 */
+    }
+
+    /* 双字符/数字 (xx, 12) */
+    .shenlun-wrapper .grid-cell.double-x,
+    .shenlun-wrapper .grid-cell.double-num {
+        font-size: 9px !important; /* 必须比普通字更小 */
+        transform: scale(0.9); /* 进一步缩小 */
+    }
+
+    /* 纯标点 (” 。) */
+    .shenlun-wrapper .grid-cell.double-punct {
+        letter-spacing: -2px; /* 缩小字间距 */
+        text-indent: -1px;
+    }
+
+    /* 挤压标点 (字，) */
+    .shenlun-wrapper .grid-cell.squeeze-punct .char {
+        transform: translateX(-1px);
+    }
+    .shenlun-wrapper .grid-cell.squeeze-punct .punct {
+        right: -3px; /* 紧贴右侧 */
+        transform: scale(0.8); /* 标点缩小 */
+    }
+
+    /* 隐藏字数标记 (因为太小了，可能遮挡下一行，或者设为极小) */
+    .shenlun-wrapper .word-count-mark {
+        font-size: 8px;
+        bottom: -8px;
+        right: -2px;
+        opacity: 0.6;
+        transform: scale(0.7);
+    }
+}
