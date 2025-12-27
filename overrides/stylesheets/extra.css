@@ -137,6 +137,7 @@ mark {
 .markmap-node {
   font-family: 'LXGW WenKai', 'Arial', sans-serif;
   font-size: 16px;
+  color: var(--md-default-fg-color);
 }
 
 /* 修改连线样式 */
