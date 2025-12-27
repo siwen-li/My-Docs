@@ -123,30 +123,30 @@ nav = [
     ]},
 
 
-    {"oracle" = [
-        { "Oracle" = "oracle/index.md" },
-        { "Oracle 正则表达式" = "oracle/Oracle_regular_expression.md" },
-        { "REGEXP_COUNT 函数" = "oracle/REGEXP_COUNT.md" },
-        { "REGEXP_INSTR 函数" = "oracle/REGEXP_INSTR.md" },
-        { "REGEXP_REPLACE 函数" = "oracle/REGEXP_REPLACE.md" },
-        { "REGEXP_SUBSTR 函数" = "oracle/REGEXP_SUBSTR.md" },
-        { "REGEXP_LIKE 函数" = "oracle/REGEXP_LIKE.md" },
-        { "Oracle 层次查询" = "oracle/Hierarchical_Queries.md" },
-        { "Oracle 层次查询运算符" = "oracle/Hierarchical_Query_Operators.md" },
-        { "Oracle 层次查询伪列" = "oracle/Hierarchical_Query_Pseudocolumns.md" },
-        { "SYS_CONNECT_BY_PATH 函数" = "oracle/SYS_CONNECT_BY_PATH.md" },
-        { "递归查询示例" = "oracle/Recursive_Query_Example.md" },
-        { "窗口函数" = "oracle/window_function.md" }
-    ]},    
-    { "Linux" = [
-        { "Linux" = "linux/index.md" },
-        { "Linux 正则表达式" = "linux/Linunx_regular_expression.md" },
-        { "grep 命令" = "linux/grep.md" },
-        { "sed 命令" = "linux/sed.md" },
-        { "awk 命令" = "linux/awk.md" },
-        { "awk 编程" = "linux/awk_programming.md" },
-        { "Linux 命令查询" = "linux/linux_cmd.md" },
-    ]},
+    # {"oracle" = [
+    #     { "Oracle" = "oracle/index.md" },
+    #     { "Oracle 正则表达式" = "oracle/Oracle_regular_expression.md" },
+    #     { "REGEXP_COUNT 函数" = "oracle/REGEXP_COUNT.md" },
+    #     { "REGEXP_INSTR 函数" = "oracle/REGEXP_INSTR.md" },
+    #     { "REGEXP_REPLACE 函数" = "oracle/REGEXP_REPLACE.md" },
+    #     { "REGEXP_SUBSTR 函数" = "oracle/REGEXP_SUBSTR.md" },
+    #     { "REGEXP_LIKE 函数" = "oracle/REGEXP_LIKE.md" },
+    #     { "Oracle 层次查询" = "oracle/Hierarchical_Queries.md" },
+    #     { "Oracle 层次查询运算符" = "oracle/Hierarchical_Query_Operators.md" },
+    #     { "Oracle 层次查询伪列" = "oracle/Hierarchical_Query_Pseudocolumns.md" },
+    #     { "SYS_CONNECT_BY_PATH 函数" = "oracle/SYS_CONNECT_BY_PATH.md" },
+    #     { "递归查询示例" = "oracle/Recursive_Query_Example.md" },
+    #     { "窗口函数" = "oracle/window_function.md" }
+    # ]},    
+    # { "Linux" = [
+    #     { "Linux" = "linux/index.md" },
+    #     { "Linux 正则表达式" = "linux/Linunx_regular_expression.md" },
+    #     { "grep 命令" = "linux/grep.md" },
+    #     { "sed 命令" = "linux/sed.md" },
+    #     { "awk 命令" = "linux/awk.md" },
+    #     { "awk 编程" = "linux/awk_programming.md" },
+    #     { "Linux 命令查询" = "linux/linux_cmd.md" },
+    # ]},
 
 ]
 
