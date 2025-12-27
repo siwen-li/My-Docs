@@ -127,3 +127,23 @@ mark {
     box-decoration-break: clone;
     text-shadow: 0 0 0.75em #FAFAFA
 }
+
+
+
+
+
+
+/******************思维导图***********************/
+.markmap-node {
+  font-family: 'LXGW WenKai', 'Arial', sans-serif;
+  font-size: 16px;
+}
+
+/* 修改连线样式 */
+.markmap-link, line, circle {
+  stroke-width: 2px; /* 线条加粗 */
+
+}
+
+
+/*****************************************/
