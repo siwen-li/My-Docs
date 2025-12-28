@@ -38,6 +38,8 @@ extra_javascript = [
     "https://cdn.jsdelivr.net/npm/markmap-view@0.18.12/dist/browser/index.min.js",
     "javascripts/word-count.js",
     "javascripts/mindmap.js",
+    "javascripts/daily-render.js",  # 申论日刊
+    "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js",
 ]
 
 # ===== 额外的 CSS 文件 =====
@@ -47,6 +49,7 @@ extra_css = [
     "stylesheets/custom.css",           # 自定义样式
     "https://unpkg.com/katex@0/dist/katex.min.css",
     "stylesheets/shenlun.css",      # 申论纸
+    "stylesheets/daily.css",        # 申论日刊样式
 ]
 
 
@@ -110,8 +113,9 @@ nav = [
 
     { "申论" = [
         { "申论" = "申论/index.md" },
+        "申论/申论日刊.md",
+        "申论/公文格式.md",
         "申论/范文.md",
-        "申论/申论纸排版.md",
     ]},
 
     { "新闻" = [
@@ -175,7 +179,7 @@ features = [
     "navigation.top",             # 返回顶部按钮
     "navigation.path",            # 顶部导航目录
     "navigation.footer",          # 上一页/下一页导航
-    "navigation.expand",          # 默认展开导航
+    # "navigation.expand",          # 默认展开导航
     "navigation.indexes",         # 章节索引页
     "navigation.instant",           # 即时导航
     "navigation.instant.prefetch",  # 预加载
@@ -396,7 +400,7 @@ mode = "view"
 emoji_generator = "zensical.extensions.emoji.to_svg"
 emoji_index = "zensical.extensions.emoji.twemoji"
 [project.markdown_extensions.pymdownx.highlight]
-linenums = true           # 全局开启行号
+# linenums = true           # 全局开启行号
 anchor_linenums = true    # 给行号添加锚点
 line_spans = "__span"     # 优化行号的选中体验
 pygments_lang_class = true
