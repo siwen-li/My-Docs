@@ -131,6 +131,8 @@
         btnImg.onclick = exportToImage;
     };
 
+    
+
     // --- 数据请求与渲染逻辑 ---
     async function _loadPaper(date) {
         currentRenderDate = date; 
@@ -140,11 +142,15 @@
         contentContainer.innerHTML = '<div class="paper-loading">正在获取 ' + date + ' 的数据...</div>';
 
         try {
-            const apiUrl = `https://shenlunsucai.com/api/v1/daily-news/by-date?date=${date}&status=published`;
+             // 比如: const apiUrl = `https://my-proxy.abc.workers.dev?date=${date}`;
+            const apiUrl = `https://sl-daily.lsw.de5.net?date=${date}`;
+            
+            // --- 请求变简单了，不需要 headers 了 ---
             const response = await fetch(apiUrl);
             
             if (!response.ok) {
                  if(response.status === 404) throw new Error("该日期暂无日报数据");
+                 if(response.status === 401 || response.status === 403) throw new Error("Token 过期或无权限，请更新 Authorization");
                  throw new Error(`请求失败: ${response.status}`);
             }
             
@@ -173,7 +179,7 @@
                 <div class="daily-paper-wrapper">
                     <!-- 报头 -->
                     <div class="paper-header">
-                        <div class="brand"> 申论日刊 </div>
+                        <div class="brand"> 今日素材 </div>
                         <div class="meta"> ${data.date} ${data.weekday} </div>
                     </div>
                     
