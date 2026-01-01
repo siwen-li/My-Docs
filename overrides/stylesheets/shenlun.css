@@ -19,7 +19,7 @@
     /* 3. 定义颜色和字体 */
     --grid-color: rgba(255, 82, 82, 0.4); 
     --text-color: #2c3e50;
-    --font-face: "KaiTi", "楷体", "STKaiti", "SimSun", serif;
+    --font-face: "LXGW WenKai", "KaiTi", "楷体", "STKaiti", "SimSun", serif;
     
     display: flex;
     flex-direction: column; 
