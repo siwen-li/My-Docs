@@ -110,7 +110,7 @@
 
 /* 数字序号 (1.) */
 .shenlun-wrapper .grid-cell.is-number {
-    font-family: "Times New Roman", serif;
+    /* font-family: "Times New Roman", serif; */
     /* 稍微缩小一点以免溢出 */
     font-size: 0.9em; 
 }
@@ -367,6 +367,10 @@ body[data-md-color-scheme="slate"] .shenlun-wrapper .grid-cell *::selection {
     .shenlun-wrapper .grid-cell.squeeze-punct {
         /* 允许溢出一点点以放下标点 */
         overflow: visible; 
+    }
+
+    .shenlun-wrapper .grid-cell.is-number {
+        font-size: 0.65em; 
     }
 
     .shenlun-wrapper .grid-cell.squeeze-punct .char {
