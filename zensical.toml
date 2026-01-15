@@ -40,6 +40,7 @@ extra_javascript = [
     "javascripts/mindmap.js",
     "javascripts/daily-render.js",  # 申论日刊
     "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js",
+    # "javascripts/todo.js",
 ]
 
 # ===== 额外的 CSS 文件 =====
@@ -50,6 +51,7 @@ extra_css = [
     "https://unpkg.com/katex@0/dist/katex.min.css",
     "stylesheets/shenlun.css",      # 申论纸
     "stylesheets/daily.css",        # 申论日刊样式
+    # "stylesheets/todo.css", 
 ]
 
 
@@ -83,6 +85,7 @@ nav = [
         ]},
 
         {"言语理解" = [
+            "行测/言语理解/言语理解与表达.md",
             "行测/言语理解/片段阅读.md",
             "行测/言语理解/逻辑填空.md",
             "行测/言语理解/词语积累.md",

@@ -1,0 +1,277 @@
+/* docs/stylesheets/todo.css */
+
+/* --- 变量定义 --- */
+:root {
+    --todo-fab-size: 2.5rem;
+    --todo-panel-width: 340px;
+    --todo-radius: 16px;
+    /* 阴影层级：更柔和的阴影 */
+    --todo-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* --- 悬浮按钮 (FAB) --- */
+#mkdocs-todo-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: var(--todo-fab-size);
+    height: var(--todo-fab-size);
+    background-color: var(--md-accent-fg-color);
+    color: var(--md-accent-bg-color);
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+}
+
+#mkdocs-todo-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+#mkdocs-todo-fab svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* --- 待办面板 (Panel) --- */
+#mkdocs-todo-panel {
+    position: fixed;
+    bottom: 5.5rem;
+    right: 2rem;
+    width: var(--todo-panel-width);
+    max-height: 500px;
+    background: var(--md-default-bg-color);
+    /* 边框在深色模式下稍微明显一点 */
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: var(--todo-radius);
+    box-shadow: var(--todo-shadow);
+    display: flex;
+    flex-direction: column;
+    z-index: 9998;
+    
+    /* 初始隐藏状态：缩放+透明+位移 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    transform-origin: bottom right;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* 字体优化 */
+    font-family: "LXGW WenKai", "Georgia", "Songti SC", "SimSun", serif;;
+    font-size: 0.9rem;
+    overflow: hidden;
+}
+
+#mkdocs-todo-panel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* 头部 Header */
+.todo-header {
+    background: var(--md-accent-fg-color);
+    padding: 16px 20px;
+    color: var(--md-accent-bg-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* 头部增加一点纹理或渐变感 (可选) */
+    background-image: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0));
+}
+
+.todo-title {
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.todo-count {
+    font-size: 0.8em;
+    opacity: 0.8;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* 列表区域 List */
+.todo-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 120px;
+    max-height: 350px;
+}
+
+/* 滚动条美化 */
+.todo-list::-webkit-scrollbar { width: 4px; }
+.todo-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 2px; }
+
+/* 列表单项 Item */
+.todo-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--md-default-fg-color--lightest);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.todo-item:hover {
+    background-color: var(--md-code-bg-color); /* 使用代码块的背景色作为悬浮色 */
+}
+
+/* 自定义复选框 */
+.todo-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--md-default-fg-color--light);
+    border-radius: 5px; /* 圆角矩形 */
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.todo-checkbox:checked {
+    background-color: var(--md-accent-fg-color);
+    border-color: var(--md-accent-fg-color);
+}
+
+.todo-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* 任务文字 */
+.todo-text {
+    flex: 1;
+    color: var(--md-text-color);
+    line-height: 1.5;
+    word-break: break-word;
+    transition: color 0.2s;
+}
+
+.todo-item.done .todo-text {
+    color: var(--md-default-fg-color--light);
+    text-decoration: line-through;
+}
+
+/* 删除按钮 */
+.todo-delete {
+    background: none;
+    border: none;
+    color: var(--md-default-fg-color--light);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    opacity: 0; /* 默认隐藏 */
+    transform: translateX(10px);
+    transition: all 0.2s;
+}
+
+.todo-item:hover .todo-delete {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.todo-delete:hover {
+    background-color: rgba(255, 82, 82, 0.1);
+    color: #ff5252;
+}
+
+/* 底部输入框 Footer */
+.todo-footer {
+    padding: 16px;
+    background: var(--md-default-bg-color);
+    border-top: 1px solid var(--md-default-fg-color--lightest);
+    display: flex;
+    gap: 10px;
+}
+
+#todo-input {
+    font-family: "LXGW WenKai", "Georgia", "Songti SC", "SimSun", serif;
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 10px;
+    background: var(--md-code-bg-color);
+    color: var(--md-text-color);
+    outline: none;
+    font-size: 0.9em;
+    transition: all 0.3s;
+}
+
+#todo-input:focus {
+    border-color: var(--md-accent-fg-color);
+    background: var(--md-default-bg-color);
+    box-shadow: 0 0 0 3px rgba(var(--md-accent-fg-color--rgb), 0.1); /* 聚焦光晕 */
+}
+
+#todo-add-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: var(--md-accent-fg-color);
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+
+#todo-add-btn:hover {
+    opacity: 0.9;
+}
+
+/* 空状态插图 */
+.todo-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--md-default-fg-color--light);
+}
+.todo-empty svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+    opacity: 0.5;
+    fill: currentColor;
+}
+
+
+/* --- 移动端适配：隐藏 --- */
+/* 当屏幕宽度小于 768px (通常是手机和平板竖屏) 时隐藏 */
+@media screen and (max-width: 768px) {
+    #mkdocs-todo-fab,
+    #mkdocs-todo-panel {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+}
